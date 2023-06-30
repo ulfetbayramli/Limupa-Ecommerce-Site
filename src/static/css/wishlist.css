@@ -1,0 +1,7 @@
+
+.wishlist-image {
+    max-width: 100px; /* Adjust the maximum width as per your requirement */
+    max-height: 100px; /* Adjust the maximum height as per your requirement */
+    width: auto;
+    height: auto;
+  }
