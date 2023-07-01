@@ -14,7 +14,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = [
-            'id',
+            # 'id',
             'name',
             'is_main',
             'p_category'
@@ -60,7 +60,7 @@ class ProductVersionSerializer(serializers.ModelSerializer):
         model = Product_version
         fields = [
             'id',
-            'read_count',
+            'read_count', 
             'cover_image',
             'color',
             'product',
