@@ -112,6 +112,56 @@ def Add_to_cart(request, product_id=None):
 
 
 
+@require_POST
+def Remove_from_cart(request, product_id=None):
+
+    product_id = request.POST.get('product_id')
+
+    if request.user.is_authenticated:
+        basket_item.objects.filter(user=request.user, product__pk=product_id).delete()
+        print(product_id)
+        print('=============================================>>>>')
+        product = Product_version.objects.get(pk=product_id)
+        item = basket_item.objects.filter(user = request.user, product=product).first()
+        
+        if item:
+            item.quantity = quantity
+            item.save()
+        else:
+            new_item = basket_item.objects.create(user = request.user, product=product, )
+            user_basket.items.add(new_item)
+
+        basket_quantity = user_basket.items.count()
+        print(basket_quantity)
+        basket_total_price = sum(item.product.product.price * item.quantity for item in user_basket.items.all())
+
+        product_list = basket_item.objects.filter(user=request.user)
+        product_list_data = [
+        {
+            'picture': item.product.cover_image.url,
+            'name': item.product.product.name,
+            'unit_price': item.product.product.price,
+            'quantity': item.quantity,
+        }
+        for item in product_list
+    ]
+        response = {
+            'success': True,
+            'message': 'Product added to cart successfully',
+            'basket_quantity': basket_quantity,
+            'basket_total_price': basket_total_price,
+            'product_list': product_list_data,
+            'csrf_token': request.COOKIES['csrftoken'],
+        }
+    else:
+        response = {
+            'success': False,
+            'message': 'User not authenticated',
+        }
+
+    return JsonResponse(response)
+
+
 
 
 

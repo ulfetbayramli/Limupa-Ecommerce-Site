@@ -184,7 +184,7 @@
                                                             <h6><a href="#">{{ item.product.product.name }}</a></h6>
                                                             <span>£{{ item.product.product.price }} x {{ item.quantity }}</span>
                                                         </div>
-                                                        <button class="close" title="Remove">
+                                                        <button class="close remove-from-cart-button" data-product-id="{{ item.pk }}" title="Remove">
                                                             <i class="fa fa-close"></i>
                                                         </button>
                                                     </li>
