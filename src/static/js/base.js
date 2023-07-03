@@ -1,4 +1,5 @@
 
+
 $(document).ready(function() {
     // Add to Cart button click event
     $('.add-to-cart-button').on('click', function(e) {
@@ -23,7 +24,6 @@ $(document).ready(function() {
                 // Handle the response
                 if (response.success) {
                     // Update the basket information in the navbar
-                    // console.log(response.basket_quantity)
                     $('#basket-quantity').text(response.basket_quantity);
                     $('#basket-total-price').text('£' + response.basket_total_price);
                     $('#basket-total-price2').text('£' + response.basket_total_price);
@@ -34,14 +34,14 @@ $(document).ready(function() {
                     $minicartProductList.empty();
                     productList.forEach(function(product) {
                         var productHtml = '<li>' +
-                            '<a href="singleproduct" class="minicart-product-image">' +
+                            '<a href=" ' + product.url + ' " class="minicart-product-image">' +
                             '<img src="' + product.picture + '" alt="cart products">' +
                             '</a>' +
                             '<div class="minicart-product-details">' +
-                            '<h6><a href="#">' + product.name + '</a></h6>' +
+                            '<h6><a href="'+ product.url +'">' + product.name + '</a></h6>' +
                             '<span>£' + product.unit_price + ' x ' + product.quantity + '</span>' +
                             '</div>' +
-                            '<button class="close" title="Remove">' +
+                            '<button class="close remove-from-cart-button" data-product-id="' + product.id + '" title="Remove">' +
                             '<i class="fa fa-close"></i>' +
                             '</button>' +
                             '</li>';
@@ -68,13 +68,14 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     // Add to Cart button click event
-    $('.remove-from-cart-button').on('click', function(e) {
+    $('.minicart-product-list').on('click', '.remove-from-cart-button', function(e) {
         e.preventDefault();
-        
+        console.log("asdfghjklkjhgfdsasdfghj")
+
         // Retrieve the product ID
         const productID = $(this).data('product-id');
-        // const prodID = $('#product-id').val();
         console.log(productID)
+        // const prodID = $('#product-id').val();
         
         // Send AJAX request to add the product to the cart
         $.ajax({
@@ -99,14 +100,14 @@ $(document).ready(function() {
                     $minicartProductList.empty();
                     productList.forEach(function(product) {
                         var productHtml = '<li>' +
-                            '<a href="singleproduct" class="minicart-product-image">' +
+                            '<a href=" ' + product.url + ' " class="minicart-product-image">' +
                             '<img src="' + product.picture + '" alt="cart products">' +
                             '</a>' +
                             '<div class="minicart-product-details">' +
-                            '<h6><a href="#">' + product.name + '</a></h6>' +
+                            '<h6><a href="'+ product.url +'">' + product.name + '</a></h6>' +
                             '<span>£' + product.unit_price + ' x ' + product.quantity + '</span>' +
                             '</div>' +
-                            '<button class="close" title="Remove">' +
+                            '<button class="close remove-from-cart-button" data-product-id="' + product.id + '" title="Remove">' +
                             '<i class="fa fa-close"></i>' +
                             '</button>' +
                             '</li>';

@@ -2,8 +2,10 @@ from order.models import basket, wishlist
 
 def basket_context(request):
     data = {}
+    #eger sebet yoxdursa error verecek
     if request.user.is_authenticated:
         basket_data = basket.objects.filter(user=request.user, is_active = True).last()
+        print(basket_data)
         wishlist_data = wishlist.objects.get(user=request.user)
         basket_count = basket_data.items.count()
         wishlist_count = wishlist_data.product.count()

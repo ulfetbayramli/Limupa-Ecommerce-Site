@@ -177,11 +177,11 @@
                                                 <ul class="minicart-product-list">
                                                     {% for item in basket %}
                                                     <li>
-                                                        <a href="singleproduct" class="minicart-product-image">
+                                                        <a href="{% url 'product_detail' item.product.pk %}" class="minicart-product-image">
                                                             <img src="{{ item.product.cover_image.url }}" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">
-                                                            <h6><a href="#">{{ item.product.product.name }}</a></h6>
+                                                            <h6><a href="{% url 'product_detail' item.product.pk %}">{{ item.product.product.name }}</a></h6>
                                                             <span>£{{ item.product.product.price }} x {{ item.quantity }}</span>
                                                         </div>
                                                         <button class="close remove-from-cart-button" data-product-id="{{ item.pk }}" title="Remove">

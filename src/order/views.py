@@ -56,6 +56,8 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from .models import basket, basket_item
 from django.core import serializers
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 @require_POST
 def Add_to_cart(request, product_id=None):
@@ -85,10 +87,12 @@ def Add_to_cart(request, product_id=None):
         product_list = basket_item.objects.filter(user=request.user)
         product_list_data = [
         {
+            'id': item.id,
             'picture': item.product.cover_image.url,
             'name': item.product.product.name,
             'unit_price': item.product.product.price,
             'quantity': item.quantity,
+            'url': reverse('product_detail', args=[item.product.pk]),
         }
         for item in product_list
     ]
@@ -111,25 +115,19 @@ def Add_to_cart(request, product_id=None):
 
 
 
-
 @require_POST
 def Remove_from_cart(request, product_id=None):
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
-    product_id = request.POST.get('product_id')
+    basket_item_id = request.POST.get('product_id')
 
     if request.user.is_authenticated:
-        basket_item.objects.filter(user=request.user, product__pk=product_id).delete()
-        print(product_id)
+        basket_itemm = get_object_or_404(basket_item, pk = basket_item_id , user = request.user)
+        basket_itemm.delete()
+
         print('=============================================>>>>')
-        product = Product_version.objects.get(pk=product_id)
-        item = basket_item.objects.filter(user = request.user, product=product).first()
-        
-        if item:
-            item.quantity = quantity
-            item.save()
-        else:
-            new_item = basket_item.objects.create(user = request.user, product=product, )
-            user_basket.items.add(new_item)
+        user_basket = basket.objects.filter(user=request.user, is_active=True).first()
+        print(user_basket)
 
         basket_quantity = user_basket.items.count()
         print(basket_quantity)
@@ -138,16 +136,18 @@ def Remove_from_cart(request, product_id=None):
         product_list = basket_item.objects.filter(user=request.user)
         product_list_data = [
         {
+            'id': item.id,
             'picture': item.product.cover_image.url,
             'name': item.product.product.name,
             'unit_price': item.product.product.price,
             'quantity': item.quantity,
+            'url': reverse('product_detail', args=[item.product.pk]),
         }
         for item in product_list
     ]
         response = {
             'success': True,
-            'message': 'Product added to cart successfully',
+            'message': 'Product removed from cart successfully',
             'basket_quantity': basket_quantity,
             'basket_total_price': basket_total_price,
             'product_list': product_list_data,
