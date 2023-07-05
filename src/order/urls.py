@@ -21,6 +21,7 @@ urlpatterns = [
     path('<int:product_id>/add_to_wishlist/', views.Add_to_wishlist, name='add_to_wishlist' ),
     path('product/<int:product_id>/add_to_wishlist/', views.Add_to_wishlist, name='add_to_wishlist'),
 
+    path('wishlist/<int:product_id>/remove_from_wishlist/', views.Remove_from_wishlist, name='remove_from_wishlist' ),
 
 
 ]
