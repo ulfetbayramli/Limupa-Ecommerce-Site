@@ -165,6 +165,73 @@ def Remove_from_cart(request, product_id=None):
 
 
 
+#  Eger mehsul artiq wishlistde varsa elave etme.
+@require_POST
+def Add_to_wishlist(request, product_id=None):
+
+    product_id = request.POST.get('product_id')
+    product = Product_version.objects.get(pk=product_id)
+
+    if request.user.is_authenticated:
+        user_wishlist = wishlist.objects.get(user=request.user)
+        user_wishlist.product.add(product)
+        user_wishlist.save()
+        
+        print(user_wishlist)
+        print(product_id)
+
+        user_wishlist = wishlist.objects.get(user=request.user)
+        wishlist_quantity = user_wishlist.product.count()
+
+        response = {
+            'success': True,
+            'message': 'Product added to wishlist successfully',
+            'wishlist_quantity': wishlist_quantity,
+            'csrf_token': request.COOKIES['csrftoken'],
+        }
+    else:
+        response = {
+            'success': False,
+            'message': 'User not authenticated',
+        }
+
+    return JsonResponse(response)
+
+
+@require_POST
+def Remove_from_wishlist(request, product_id=None):
+
+    product_id = request.POST.get('product_id')
+    product = Product_version.objects.get(pk=product_id)
+
+    if request.user.is_authenticated:
+        user_wishlist = wishlist.objects.get(user=request.user)
+        user_wishlist.product.add(product)
+        user_wishlist.save()
+        
+        print(user_wishlist)
+        print(product_id)
+
+        user_wishlist = wishlist.objects.get(user=request.user)
+        wishlist_quantity = user_wishlist.product.count()
+
+        response = {
+            'success': True,
+            'message': 'Product added to wishlist successfully',
+            'wishlist_quantity': wishlist_quantity,
+            'csrf_token': request.COOKIES['csrftoken'],
+        }
+    else:
+        response = {
+            'success': False,
+            'message': 'User not authenticated',
+        }
+
+    return JsonResponse(response)
+
+
+
+
 
 
 
