@@ -198,21 +198,8 @@ $(document).ready(function() {
                     // Update the wishlist information in the navbar
                     $('#wishlist-quantity').text(response.wishlist_quantity);
 
-                    // Update the product list in the navbar
-                    var productList = response.product_list;
-                    var $minicartProductList = $('.minicart-product-list');
-                    $minicartProductList.empty();
-                    productList.forEach(function(product) {
-                        var productHtml =  '<tr>' + 
-                        '<td class="li-product-remove"><a class="remove-from-wishlist-button" href="#"  data-product-id=" '+ product.id +' " ><i class="fa fa-times"></i></a></td>'+
-                        '<td class="li-product-thumbnail"><a href="#"><img src="' + product.picture + '" alt="" class="wishlist-image"></a></td>'+
-                        '<td class="li-product-name"><a href="#"> '+ product.name  +' </a></td>'+
-                        '<td class="li-product-price"><span class="amount">$'+ product.unit_price +'</span></td>'+
-                        '<td class="li-product-stock-status"><span class="in-stock">in stock</span></td>'+
-                        '<td class="li-product-add-cart"><a href="#" class="add-to-cart-button" data-product-id=" '+ product.id +' ">add to cart</a></td>'+
-                        '</tr>';
-                        $minicartProductList.append(productHtml);
-                    });
+                    $(e.target).closest('tr').remove();
+
                     alert(response.message);
                 } else {
                     // Show an error message (optional)
