@@ -3,6 +3,11 @@ from django.views.generic import ListView
 from order.models import wishlist, basket
 from product.models import Product_version
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from django.urls import reverse
+from .models import wishlist, Product_version
 # Create your views here.
 
 #Login olmayan istifadeciler ucun ayrica mesaj yazilmalidir
@@ -197,11 +202,6 @@ def Add_to_wishlist(request, product_id=None):
 
     return JsonResponse(response)
 
-from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse
-from django.urls import reverse
-from .models import wishlist, Product_version
 
 @require_POST
 def Remove_from_wishlist(request, product_id=None):
