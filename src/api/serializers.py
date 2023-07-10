@@ -37,6 +37,8 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer
     manufacturer = ManufacturerSerializer
+    detail_url = serializers.SerializerMethodField()
+
 
     class Meta:
         model = Product
@@ -47,8 +49,12 @@ class ProductSerializer(serializers.ModelSerializer):
             'in_sale',
             'category',
             'description',
-            'manufacturer'
+            'manufacturer',
+            'detail_url'
         ]
+        
+    def get_detail_url(self, obj):
+        return obj.get_absolute_url()
 
 
 class ProductVersionSerializer(serializers.ModelSerializer):

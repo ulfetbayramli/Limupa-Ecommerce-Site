@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Size(models.Model):
     name = models.CharField(max_length=10)
@@ -89,6 +90,9 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
+
+    def get_absolute_url(self):
+        return reverse('product_detail', args=[str(self.pk)])
 
 
 class Product_version(models.Model):
