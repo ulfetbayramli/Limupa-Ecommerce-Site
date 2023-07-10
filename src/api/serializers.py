@@ -61,11 +61,16 @@ class ProductVersionSerializer(serializers.ModelSerializer):
     color = ColorSerializer
     product = ProductSerializer
     size = SizeSerializer
+    product_name = serializers.SerializerMethodField()
+    product_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Product_version
         fields = [
             'id',
+            'product',
+            'product_name',
+            'product_price',
             'read_count', 
             'cover_image',
             'color',
@@ -73,3 +78,9 @@ class ProductVersionSerializer(serializers.ModelSerializer):
             'size',
             'units_sold'
         ]
+
+    def get_product_name(self, obj):    
+        return obj.product.name
+
+    def get_product_price(self, obj):
+        return obj.product.price
