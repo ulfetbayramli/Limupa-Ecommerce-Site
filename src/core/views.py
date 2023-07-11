@@ -30,22 +30,28 @@ from django.http import JsonResponse
 from django.views import View
 from .forms import SubscriberForm
 from .models import Subscriber
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
 
 def SubscribeView(request):
-    print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    emails = Subscriber.objects.all()
     email = request.POST.get('emailInput')
-    print(email)
+   
     if email:
-        print(email)
-        Subscriber.objects.create(email=email)
-        # Perform additional actions if needed
-        return JsonResponse({'success': True})
+        try:
+            validate_email(email)  # Validate the email format
+            if Subscriber.objects.filter(email=email).exists():
+                return JsonResponse({'success': False, 'message': 'You are already subscribed.'})
+            else:
+                Subscriber.objects.create(email=email)
+                # Perform additional actions if needed
+                return JsonResponse({'success': True})
+        except ValidationError:
+            return JsonResponse({'success': False, 'message': 'Enter true email addres.'})
     else:
-        return JsonResponse({'success': False})
+        return JsonResponse({'success': False, 'message': 'Email field is required.'})
 
-# def HomePage(request):
-#     return render(request , 'core/index.html')
+
 
 
 def Error404(request):

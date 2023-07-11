@@ -67,15 +67,12 @@ from django.urls import reverse
 
 @require_POST
 def Add_to_cart(request, product_id=None):
-    # if product_id is None:
-        # product_id = request.POST.get('product_id')
+
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity', 1)
 
     if request.user.is_authenticated:
         user_basket, created = basket.objects.get_or_create(user=request.user, is_active=True)
-        print(product_id)
-        print('=============================================>>>>')
         product = Product_version.objects.get(pk=product_id)
         item = basket_item.objects.filter(user = request.user, product=product).first()
         
@@ -87,7 +84,6 @@ def Add_to_cart(request, product_id=None):
             user_basket.items.add(new_item)
 
         basket_quantity = user_basket.items.count()
-        print(basket_quantity)
         basket_total_price = sum(item.product.product.price * item.quantity for item in user_basket.items.all())
 
         product_list = basket_item.objects.filter(user=request.user)
@@ -123,7 +119,6 @@ def Add_to_cart(request, product_id=None):
 
 @require_POST
 def Remove_from_cart(request, product_id=None):
-    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
     basket_item_id = request.POST.get('product_id')
 
@@ -131,12 +126,9 @@ def Remove_from_cart(request, product_id=None):
         basket_itemm = get_object_or_404(basket_item, pk = basket_item_id , user = request.user)
         basket_itemm.delete()
 
-        print('=============================================>>>>')
         user_basket = basket.objects.filter(user=request.user, is_active=True).first()
-        print(user_basket)
 
         basket_quantity = user_basket.items.count()
-        print(basket_quantity)
         basket_total_price = sum(item.product.product.price * item.quantity for item in user_basket.items.all())
 
         product_list = basket_item.objects.filter(user=request.user)
@@ -181,9 +173,7 @@ def Add_to_wishlist(request, product_id=None):
         user_wishlist = wishlist.objects.get(user=request.user)
         user_wishlist.product.add(product)
         user_wishlist.save()
-        
-        print(user_wishlist)
-        print(product_id)
+
 
         user_wishlist = wishlist.objects.get(user=request.user)
         wishlist_quantity = user_wishlist.product.count()
@@ -215,6 +205,7 @@ def Remove_from_wishlist(request, product_id=None):
         wishlist_quantity = user_wishlist.product.count()
         product_list = wishlist.objects.filter(user=request.user)
 
+        ## Wishliat sehifesinde 1 mehsul qalanda mehsul databazadan silinir ama ajax ile sehifeden silinmir
         product_list_data = [
             {
                 'id': item.id,
