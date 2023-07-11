@@ -26,6 +26,24 @@ class HomePage(ListView):
         return context
 
 
+from django.http import JsonResponse
+from django.views import View
+from .forms import SubscriberForm
+from .models import Subscriber
+
+def SubscribeView(request):
+    print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+    emails = Subscriber.objects.all()
+    email = request.POST.get('emailInput')
+    print(email)
+    if email:
+        print(email)
+        Subscriber.objects.create(email=email)
+        # Perform additional actions if needed
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
+
 # def HomePage(request):
 #     return render(request , 'core/index.html')
 
