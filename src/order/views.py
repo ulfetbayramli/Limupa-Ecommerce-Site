@@ -66,7 +66,7 @@ from django.urls import reverse
 
 
 @require_POST
-def Add_to_cart(request, product_id=None):
+def Add_to_cart(request, product_id=None, category_id=None):
 
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity', 1)
@@ -118,7 +118,7 @@ def Add_to_cart(request, product_id=None):
 
 
 @require_POST
-def Remove_from_cart(request, product_id=None):
+def Remove_from_cart(request, product_id=None, category_id=None):
 
     basket_item_id = request.POST.get('product_id')
 
@@ -164,7 +164,7 @@ def Remove_from_cart(request, product_id=None):
 
 #  Eger mehsul artiq wishlistde varsa elave etme.
 @require_POST
-def Add_to_wishlist(request, product_id=None):
+def Add_to_wishlist(request, product_id=None, category_id=None):
 
     product_id = request.POST.get('product_id')
     product = Product_version.objects.get(pk=product_id)

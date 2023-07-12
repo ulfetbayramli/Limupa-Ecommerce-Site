@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from .models import Product_version, Image, Product
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.db.models import Q
 
 
@@ -53,4 +53,72 @@ def Shopleft(request):
 
 
 
+from .models import Category, Color
 
+class SearchFilterPage(TemplateView):
+    template_name = 'product/shop-left-sidebar.html'
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        category_id = self.kwargs.get('category_id')
+        category = Category.objects.get(id=category_id)
+        # category_id = self.request.GET.get('category')
+        # subcategory_id = self.request.GET.get('subcategory')
+        # color = self.request.GET.get('color')
+
+        # Retrieve the selected category and subcategory if available
+        # if category_id:
+        #     category = Category.objects.get(id=category_id)
+        #     context['selected_category'] = category
+        #     context['selected_subcategories'] = Category.objects.filter(p_category=category)
+        #     print(context)
+        # if subcategory_id:
+        #     context['selected_subcategory'] = Subcategory.objects.get(id=subcategory_id)
+
+        # Retrieve the filtered products based on the selected category, subcategory, and color
+        products = Product_version.objects.filter(product__category__id = category_id)
+        # if category_id:
+        #     products = products.filter(product__category = category)
+        # if subcategory_id:
+        #     products = products.filter(subcategory_id=subcategory_id)
+        # if color:
+        #     products = products.filter(color=color)
+        context['products'] = products
+
+        # Retrieve the available categories, subcategories, and colors for the filter options
+        product_count = products.count()
+        context['product_count'] = product_count
+        context['category'] = category
+        context['categories'] = Category.objects.filter(p_category=category)
+
+        context['brands'] = products.values_list('product__manufacturer__name', flat=True).distinct()
+        sizes = products.values_list('size__name', flat=True).distinct()
+        context['sizes'] = [size for size in sizes if size is not None] 
+        brands = products.values_list('product__manufacturer__name', flat=True).distinct()
+        for brand in brands:
+            print(brand)
+        colors = Color.objects.filter(id__in=products.values_list('color', flat=True).distinct())
+        context['colors'] = colors
+        
+        return context
+
+    def post(self, request, *args, **kwargs):
+        category_id = request.POST.get('category')
+        subcategory_id = request.POST.get('subcategory')
+        color = request.POST.get('color')
+
+        # Perform additional filtering based on the AJAX request data
+        products = Product.objects.all()
+        if category_id:
+            products = products.filter(category_id=category_id)
+        if subcategory_id:
+            products = products.filter(subcategory_id=subcategory_id)
+        if color:
+            products = products.filter(color=color)
+
+        # Serialize the filtered products to JSON
+        products_json = [{'name': product.name, 'description': product.description} for product in products]
+
+        return JsonResponse({'products': products_json})

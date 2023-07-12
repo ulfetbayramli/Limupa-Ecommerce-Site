@@ -49,6 +49,7 @@ class Category(models.Model):
 
 class Color(models.Model):
     name=models.CharField(max_length=50 )
+    color_code = models.CharField(max_length=100, default="white")
     
     def __str__(self):
         return self.name
@@ -77,7 +78,7 @@ class Product(models.Model):
     in_sale = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="product_category", null=True)
     description = models.TextField(blank=True, help_text='A detailed description of the product, including features, benefits, and specs')
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,related_name="product_manufacturer" , null=True, blank=True)
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE,related_name="product_manufacturer" , null=False, blank=True)
     
     # size = models.ForeignKey(Size, on_delete=models.CASCADE)
     # updated_at = models.DateTimeField(auto_now=True)  

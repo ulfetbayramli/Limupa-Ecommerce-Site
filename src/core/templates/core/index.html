@@ -21,7 +21,7 @@
                                             <h2>Chamcham Galaxy S9 | S9+</h2>
                                             <h3>Starting at <span>$1209.00</span></h3>
                                             <div class="default-btn slide-btn">
-                                                <a class="links" href="{% url 'search_by_category' %}">Shopping Now</a>
+                                                <a class="links" href="#">Shopping Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -34,7 +34,7 @@
                                             <h2>Work Desk Surface Studio 2018</h2>
                                             <h3>Starting at <span>$824.00</span></h3>
                                             <div class="default-btn slide-btn">
-                                                <a class="links" href="{% url 'search_by_category' %}">Shopping Now</a>
+                                                <a class="links" href="#">Shopping Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                             <h2>Phantom 4 Pro+ Obsidian</h2>
                                             <h3>Starting at <span>$1849.00</span></h3>
                                             <div class="default-btn slide-btn">
-                                                <a class="links" href="{% url 'search_by_category' %}">Shopping Now</a>
+                                                <a class="links" href="#">Shopping Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -125,7 +125,7 @@
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.product.discount_price }}</span>
                                                         <span class="old-price">${{ product.product.price }}</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
                                                     {% else %}
                                                     <div class="price-box">
@@ -166,7 +166,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -223,7 +223,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -313,9 +313,9 @@
                                     <span>Laptop</span>
                                 </h2>
                                 <ul class="li-sub-category-list">
-                                    <li class="active"><a href="{% url 'search_by_category' %}">Prime Video</a></li>
-                                    <li><a href="{% url 'search_by_category' %}">Computers</a></li>
-                                    <li><a href="{% url 'search_by_category' %}">Electronics</a></li>
+                                    <li class="active"><a href="#">Prime Video</a></li>
+                                    <li><a href="#">Computers</a></li>
+                                    <li><a href="#">Electronics</a></li>
                                 </ul>
                             </div>
                             <div class="row">
@@ -334,7 +334,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -390,9 +390,9 @@
                                     <span>TV & Audio</span>
                                 </h2>
                                 <ul class="li-sub-category-list">
-                                    <li class="active"><a href="{% url 'search_by_category' %}">Chamcham</a></li>
-                                    <li><a href="{% url 'search_by_category' %}">Sanai</a></li>
-                                    <li><a href="{% url 'search_by_category' %}">Meito</a></li>
+                                    <li class="active"><a href="#">Chamcham</a></li>
+                                    <li><a href="#">Sanai</a></li>
+                                    <li><a href="#">Meito</a></li>
                                 </ul>
                             </div>
                             <div class="row">
@@ -411,7 +411,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -474,7 +474,7 @@
                                     <span> $1209.00</span>
                                 </p>
                                 <div class="default-btn">
-                                    <a href="{% url 'search_by_category' %}" class="links">Shopping Now</a>
+                                    <a href="#" class="links">Shopping Now</a>
                                 </div>
                             </div>
                             <!-- Li's Static Home Content Area End Here -->
@@ -518,7 +518,7 @@
                                                         <div class="product_desc_info">
                                                             <div class="product-review">
                                                                 <h5 class="manufacturer">
-                                                                    <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                                    <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                                 </h5>
                                                                 <div class="rating-box">
                                                                     <ul class="rating">
@@ -575,7 +575,7 @@
                                                         <div class="product_desc_info">
                                                             <div class="product-review">
                                                                 <h5 class="manufacturer">
-                                                                    <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                                    <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                                 </h5>
                                                                 <div class="rating-box">
                                                                     <ul class="rating">
@@ -632,7 +632,7 @@
                                                         <div class="product_desc_info">
                                                             <div class="product-review">
                                                                 <h5 class="manufacturer">
-                                                                    <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                                    <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                                 </h5>
                                                                 <div class="rating-box">
                                                                     <ul class="rating">
@@ -707,7 +707,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="{% url 'search_by_category' %}">{{ product.product.category }}</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">

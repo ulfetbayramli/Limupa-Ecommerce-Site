@@ -223,3 +223,42 @@ $(document).ready(function() {
 });
 
 
+
+
+
+
+
+
+// Assuming you have a product list container with id "product-list"
+$.ajax({
+    type: 'POST',
+    url: '/search/',  // Update with your search page URL
+    data: {
+      category: selectedCategoryId,       // Retrieve the selected category ID
+      subcategory: selectedSubcategoryId, // Retrieve the selected subcategory ID
+      color: selectedColor                 // Retrieve the selected color
+    },
+    success: function(response) {
+      var productContainer = $('#product-list');
+      productContainer.empty(); // Clear existing products
+  
+      if (response.products.length > 0) {
+        // Iterate over the filtered products and add them to the product container
+        $.each(response.products, function(index, product) {
+          var productHtml = '<div class="product">' +
+            '<h3>' + product.name + '</h3>' +
+            '<p>' + product.description + '</p>' +
+            '</div>';
+          productContainer.append(productHtml);
+        });
+      } else {
+        // Display a message if no products are found
+        productContainer.append('<p>No products found.</p>');
+      }
+    },
+    error: function(xhr, status, error) {
+      // Handle the error if needed
+      console.log(error);
+    }
+  });
+  
