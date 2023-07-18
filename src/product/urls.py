@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ProductDetails, SingleProduct, SearchFilterPage
+from .views import ProductDetails, SingleProduct, SearchFilterPage, ApplyFilters
 
 urlpatterns = [
     path('compare/', views.Compare, name='compare'),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('search', views.Search, name='search'),
     path('search_by_category/<int:category_id>/', SearchFilterPage.as_view(), name='search_by_category'),
     path('product/<int:pk>', SingleProduct.as_view(), name='product_detail'),
+    path('search_by_category/<int:category_id>/apply_filters/', ApplyFilters.as_view(), name='search_by_filter'),
 ]

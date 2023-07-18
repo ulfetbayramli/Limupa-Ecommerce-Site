@@ -41,7 +41,7 @@
                                         <!-- shop-item-filter-list end -->
                                     </div>
                                     <div class="toolbar-amount">
-                                        <span>Showing {{product_count}} product</span>
+                                        <span >Showing <span id="product-count">{{product_count}}</span> product</span>
                                     </div>
                                 </div>
                                 <!-- product-select-box start -->
@@ -50,12 +50,12 @@
                                         <p>Sort By:</p>
                                         <select class="nice-select">
                                             <option value="trending">Sıralama</option>
-                                            <option value="sales">Ən ucuz</option>
-                                            <option value="sales">Ən baha</option>
-                                            <option value="rating">Ən yeni</option>
-                                            <option value="date">Ən çox satılanlar</option>
-                                            <option value="price-asc">Ən çox bəyənilənlər</option>
-                                            <option value="price-asc">Ən çox rəy yazılanlar</option>
+                                            <option value="price-asc">Ən ucuz</option>
+                                            <option value="price-desc">Ən baha</option>
+                                            <option value="newest">Ən yeni</option>
+                                            <option value="bestsellers">Ən çox satılanlar</option>
+                                            <option value="like">Ən çox bəyənilənlər</option>
+                                            <option value="review">Ən çox rəy yazılanlar</option>
                                         </select>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div class="tab-content">
                                     <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
                                         <div class="product-area shop-product-area">
-                                            <div class="row">
+                                            <div class="row"  id="search-product-list">
                                                 {% for product in products  %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
                                                     <!-- single-product-wrap start -->
@@ -151,6 +151,7 @@
                             <!--sidebar-categores-box start  -->
                             <div class="sidebar-categores-box mt-sm-30 mt-xs-30">
                                 <div class="sidebar-title">
+                                    <span id="category-id" hidden>{{ category.id }}</span>
                                     <h2>{{ category }}</h2>
                                 </div>
                                 <!-- category-sub-menu start -->
@@ -194,26 +195,14 @@
                                         <form action="#">
                                             <ul>
                                                 {% for brand in brands %}
-                                                <li><input type="checkbox" name="product-categori"><a href="#">{{ brand }} (13)</a></li>
+                                                <li><input type="checkbox" name="brand" value="{{ brand }}" class="filter-option">
+                                                    <a href="#">{{ brand }} (13)</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </form>
                                     </div>
                                  </div>
                                  {% endif %}
-                                <!-- filter-sub-area end -->
-                                <!-- filter-sub-area start -->
-                                <!-- <div class="filter-sub-area pt-sm-10 pt-xs-10">
-                                    <h5 class="filter-sub-titel">Categories</h5>
-                                    <div class="categori-checkbox">
-                                        <form action="#">
-                                            <ul>
-                                                <li><input type="checkbox" name="product-categori"><a href="#">Graphic Corner (10)</a></li>
-                                                <li><input type="checkbox" name="product-categori"><a href="#"> Studio Design (6)</a></li>
-                                            </ul>
-                                        </form>
-                                    </div>
-                                 </div> -->
                                 <!-- filter-sub-area end -->
                                 <!-- filter-sub-area start -->
                                 {% if sizes %}
@@ -223,7 +212,7 @@
                                         <form action="#">
                                             {% for size in sizes %}
                                             <ul>
-                                                <li><input type="checkbox" name="product-size"><a href="#">{{ size}} (3)</a></li>
+                                                <li><input type="checkbox" name="size" value="{{ size }}" class="filter-option"><a href="#">{{ size}} (3)</a></li>
                                             </ul>
                                             {% endfor %}
                                         </form>
@@ -235,11 +224,13 @@
                                 {% if colors %}
                                 <div class="filter-sub-area pt-sm-10 pt-xs-10">
                                     <h5 class="filter-sub-titel">Color</h5>
-                                    <div class="color-categoriy">
+                                    <div class="color-categoriy size-checkbox">
                                         <form action="#">
                                             <ul>
                                                 {% for color in colors %}
-                                                <li><span style="background-color: {{ color.color_code }};"></span><a href="#">{{color.name}} (1)</a></li>
+                                                <li><input type="checkbox" name="color" value="{{ color.name }}" class="filter-option">
+                                                    <span style="background-color: {{ color.color_code }};"></span>
+                                                    <a href="#">{{ color.name }} (1)</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </form>

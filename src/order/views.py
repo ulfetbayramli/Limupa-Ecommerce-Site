@@ -70,6 +70,8 @@ def Add_to_cart(request, product_id=None, category_id=None):
 
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity', 1)
+    quantity = quantity
+    print(type(quantity), quantity)
 
     if request.user.is_authenticated:
         user_basket, created = basket.objects.get_or_create(user=request.user, is_active=True)
@@ -80,7 +82,7 @@ def Add_to_cart(request, product_id=None, category_id=None):
             item.quantity = quantity
             item.save()
         else:
-            new_item = basket_item.objects.create(user = request.user, product=product, )
+            new_item = basket_item.objects.create(user = request.user, product=product, quantity= quantity )
             user_basket.items.add(new_item)
 
         basket_quantity = user_basket.items.count()
@@ -205,26 +207,35 @@ def Remove_from_wishlist(request, product_id=None):
         wishlist_quantity = user_wishlist.product.count()
         product_list = wishlist.objects.filter(user=request.user)
 
-        ## Wishliat sehifesinde 1 mehsul qalanda mehsul databazadan silinir ama ajax ile sehifeden silinmir
-        product_list_data = [
-            {
-                'id': item.id,
-                'picture': item.product.first().cover_image.url,
-                'name': item.product.first().product.name,
-                'unit_price': item.product.first().product.price,
-                'quantity': wishlist_quantity,
-                'url': reverse('product_detail', args=[item.product.first().pk]),
-            }
-            for item in product_list
-        ]
+        if wishlist_quantity > 0:
+            ## Wishliat sehifesinde 1 mehsul qalanda mehsul databazadan silinir ama ajax ile sehifeden silinmir
+            product_list_data = [
+                {
+                    'id': item.id,
+                    'picture': item.product.first().cover_image.url,
+                    'name': item.product.first().product.name,
+                    'unit_price': item.product.first().product.price,
+                    'quantity': wishlist_quantity,
+                    'url': reverse('product_detail', args=[item.product.first().pk]),
+                }
+                for item in product_list
+            ]
 
-        response = {
-            'success': True,
-            'message': 'Product removed from wishlist successfully',
-            'wishlist_quantity': wishlist_quantity,
-            'product_list': product_list_data,
-            'csrf_token': request.COOKIES['csrftoken'],
-        }
+            response = {
+                'success': True,
+                'message': 'Product removed from wishlist successfully',
+                'wishlist_quantity': wishlist_quantity,
+                'product_list': product_list_data,
+                'csrf_token': request.COOKIES['csrftoken'],
+            }
+        else:
+            response = {
+                'success': True,
+                'message': 'Product removed from wishlist successfully',
+                'wishlist_quantity': wishlist_quantity,
+                'csrf_token': request.COOKIES['csrftoken'],
+            }
+
     else:
         response = {
             'success': False,

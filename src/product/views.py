@@ -31,7 +31,9 @@ class SingleProduct(DetailView):
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
         product = Product_version.objects.get(pk=pk)
+        print(product.read_count)
         product.read_count += 1
+        print(product.read_count)
         product.save()
         return product
         
@@ -57,37 +59,16 @@ from .models import Category, Color
 
 class SearchFilterPage(TemplateView):
     template_name = 'product/shop-left-sidebar.html'
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
         category_id = self.kwargs.get('category_id')
         category = Category.objects.get(id=category_id)
-        # category_id = self.request.GET.get('category')
-        # subcategory_id = self.request.GET.get('subcategory')
-        # color = self.request.GET.get('color')
 
-        # Retrieve the selected category and subcategory if available
-        # if category_id:
-        #     category = Category.objects.get(id=category_id)
-        #     context['selected_category'] = category
-        #     context['selected_subcategories'] = Category.objects.filter(p_category=category)
-        #     print(context)
-        # if subcategory_id:
-        #     context['selected_subcategory'] = Subcategory.objects.get(id=subcategory_id)
-
-        # Retrieve the filtered products based on the selected category, subcategory, and color
         products = Product_version.objects.filter(product__category__id = category_id)
-        # if category_id:
-        #     products = products.filter(product__category = category)
-        # if subcategory_id:
-        #     products = products.filter(subcategory_id=subcategory_id)
-        # if color:
-        #     products = products.filter(color=color)
         context['products'] = products
 
-        # Retrieve the available categories, subcategories, and colors for the filter options
         product_count = products.count()
         context['product_count'] = product_count
         context['category'] = category
@@ -104,21 +85,64 @@ class SearchFilterPage(TemplateView):
         
         return context
 
+from django.views import View
+from django.http import JsonResponse
+from django.urls import reverse
+from django.db.models import Count
+
+class ApplyFilters(View):
     def post(self, request, *args, **kwargs):
-        category_id = request.POST.get('category')
-        subcategory_id = request.POST.get('subcategory')
-        color = request.POST.get('color')
+        category_id = self.kwargs.get('category_id')
 
-        # Perform additional filtering based on the AJAX request data
-        products = Product.objects.all()
-        if category_id:
-            products = products.filter(category_id=category_id)
-        if subcategory_id:
-            products = products.filter(subcategory_id=subcategory_id)
-        if color:
-            products = products.filter(color=color)
+        
+        selected_brands = request.POST.getlist('brands[]')
+        selected_sizes = request.POST.getlist('sizes[]')
+        selected_colors = request.POST.getlist('colors[]')
+        sort_by_option = request.POST.get('sort_by', 'trending')
 
-        # Serialize the filtered products to JSON
-        products_json = [{'name': product.name, 'description': product.description} for product in products]
+        products = Product_version.objects.filter(product__category__id=category_id)
 
-        return JsonResponse({'products': products_json})
+        if selected_brands:
+            products = products.filter(product__manufacturer__name__in=selected_brands)
+        if selected_sizes:
+            products = products.filter(size__name__in=selected_sizes)
+        if selected_colors:
+            products = products.filter(color__name__in=selected_colors)
+
+        if sort_by_option == 'price-asc':
+            products = products.order_by('product__price')
+            print(products)
+        elif sort_by_option == 'price-desc':
+            products = products.order_by('-product__price')
+        elif sort_by_option == 'newest':
+            products = products.order_by('-date_added')
+        elif sort_by_option == 'bestsellers':
+            products = products.order_by('-units_sold')
+        elif sort_by_option == 'like':
+            products = products.annotate(like_count=Count('wishlist_product')).order_by('-like_count')
+        elif sort_by_option == 'review':
+            products = products.order_by('-review_count')
+
+
+        print(selected_brands, selected_colors)
+        product_count = products.count()
+
+        product_list = [
+        {
+            'id': product.id,
+            'picture': product.cover_image.url,
+            'name': product.product.name,
+            'price': product.product.price,
+            'url': reverse('product_detail', args=[product.product.pk]),
+        }
+        for product in products
+    ]
+        response = {
+            'success': True,
+            'message': 'Products filtered',
+            'product_count': product_count,
+            'products': product_list,
+            'csrf_token': request.COOKIES['csrftoken'],
+        }
+
+        return JsonResponse(response)
