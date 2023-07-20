@@ -73,8 +73,6 @@ class Manufacturer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=8, decimal_places=2, help_text='The regular price of the product')
-    discount_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, help_text='The discounted price of the product')
     in_sale = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="product_category", null=True)
     description = models.TextField(blank=True, help_text='A detailed description of the product, including features, benefits, and specs')
@@ -99,6 +97,8 @@ class Product(models.Model):
 class Product_version(models.Model):
     quantity = models.PositiveIntegerField()
     review_count = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(max_digits=8, decimal_places=2, help_text='The regular price of the product', default=2000)
+    discount_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, help_text='The discounted price of the product')
     date_added = models.DateTimeField(auto_now_add=True)
     read_count = models.PositiveIntegerField(default=0)
     cover_image = models.ImageField(upload_to="product_images/")

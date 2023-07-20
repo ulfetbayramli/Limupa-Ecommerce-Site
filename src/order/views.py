@@ -30,7 +30,7 @@ class ShoppingCart(ListView):
     def get_queryset(self):
         items = basket.objects.filter(user = self.request.user, is_active = True).last()
         product = items.items.all()
-        subtotal = sum(item.product.product.price for item in product)
+        subtotal = sum(item.product.price for item in product)
         self.product = product
         self.subtotal = subtotal
         return[]
@@ -86,7 +86,7 @@ def Add_to_cart(request, product_id=None, category_id=None):
             user_basket.items.add(new_item)
 
         basket_quantity = user_basket.items.count()
-        basket_total_price = sum(item.product.product.price * item.quantity for item in user_basket.items.all())
+        basket_total_price = sum(item.product.price * item.quantity for item in user_basket.items.all())
 
         product_list = basket_item.objects.filter(user=request.user)
         product_list_data = [
@@ -94,7 +94,7 @@ def Add_to_cart(request, product_id=None, category_id=None):
             'id': item.id,
             'picture': item.product.cover_image.url,
             'name': item.product.product.name,
-            'unit_price': item.product.product.price,
+            'unit_price': item.product.price,
             'quantity': item.quantity,
             'url': reverse('product_detail', args=[item.product.pk]),
         }
@@ -131,7 +131,7 @@ def Remove_from_cart(request, product_id=None, category_id=None):
         user_basket = basket.objects.filter(user=request.user, is_active=True).first()
 
         basket_quantity = user_basket.items.count()
-        basket_total_price = sum(item.product.product.price * item.quantity for item in user_basket.items.all())
+        basket_total_price = sum(item.product.price * item.quantity for item in user_basket.items.all())
 
         product_list = basket_item.objects.filter(user=request.user)
         product_list_data = [
@@ -139,7 +139,7 @@ def Remove_from_cart(request, product_id=None, category_id=None):
             'id': item.id,
             'picture': item.product.cover_image.url,
             'name': item.product.product.name,
-            'unit_price': item.product.product.price,
+            'unit_price': item.product.price,
             'quantity': item.quantity,
             'url': reverse('product_detail', args=[item.product.pk]),
         }
@@ -214,7 +214,7 @@ def Remove_from_wishlist(request, product_id=None):
                     'id': item.id,
                     'picture': item.product.first().cover_image.url,
                     'name': item.product.first().product.name,
-                    'unit_price': item.product.first().product.price,
+                    'unit_price': item.product.first().price,
                     'quantity': wishlist_quantity,
                     'url': reverse('product_detail', args=[item.product.first().pk]),
                 }

@@ -237,10 +237,15 @@ $(document).ready(function() {
     });
 
     function applyFilters() {
+        var selectedCategories = [];
         var selectedBrands = [];
         var selectedSizes = [];
         var selectedColors = [];
 
+        $('input[name="category"]:checked').each(function() {
+            selectedCategories.push($(this).val());
+        });
+        
         $('input[name="brand"]:checked').each(function() {
             selectedBrands.push($(this).val());
         });
@@ -257,6 +262,7 @@ $(document).ready(function() {
             type: 'POST',
             url: 'apply_filters/',
             data: {
+                'categories': selectedCategories,
                 'brands': selectedBrands,
                 'sizes': selectedSizes,
                 'colors': selectedColors,
@@ -286,6 +292,7 @@ $(document).ready(function() {
                                 <div class="product_desc">
                                     <div class="product_desc_info">
                                     <div class="product-review">
+                                        <h5 class="manufacturer"></h5>
                                         <div class="rating-box">
                                         <ul class="rating">
                                             <li><i class="fa fa-star-o"></i></li>

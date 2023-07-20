@@ -12,11 +12,11 @@ def basket_context(request):
         subtotal = 0
         basket_items = basket_data.items.all()
         for item in basket_items:
-            subtotal += (item.product.product.price * item.quantity)
+            subtotal += (item.product.price * item.quantity)
 
         data['basket'] = basket_items
         data['basket_count'] = basket_count
         data['wishlist_count'] = wishlist_count
-        data['subtotal'] = subtotal    
+        data['subtotal'] = subtotal
     return data
 

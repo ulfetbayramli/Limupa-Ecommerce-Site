@@ -21,4 +21,4 @@ class ProductVersionListAPi(ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['product__category', 'color__name', 'product__manufacturer__name']
     search_fields = ['product__name', 'product__description']
-    ordering_fields = ['product__price']
+    ordering_fields = ['price']
