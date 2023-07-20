@@ -4,6 +4,10 @@ from django.shortcuts import render
 from .models import Product_version, Image, Product, Manufacturer
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.db.models import Q
+from django.views import View
+from django.http import JsonResponse
+from django.urls import reverse
+from django.db.models import Count
 
 
 def Compare(request):
@@ -55,18 +59,16 @@ def Shopleft(request):
 
 
 
-from .models import Category, Color
+from .models import Category, Color, Storage
 
 class SearchFilterPage(TemplateView):
     template_name = 'product/shop-left-sidebar.html'
 
     def get_parent_category(self, categories):
-        # Find the common parent category among a list of categories
-        # Assumes that categories are related in a hierarchical manner
         parent_category = None
         for category in categories:
             print("evvel")
-            if not category.p_category:  # If the category has no parent, it's the top-level category
+            if not category.p_category:
                 parent_category = category
                 break
         return parent_category
@@ -94,7 +96,6 @@ class SearchFilterPage(TemplateView):
             exact_category = Category.objects.filter(name__iexact=search_query)
             exact_manufacturer = Manufacturer.objects.filter(name__iexact=search_query)
             if exact_category.exists():
-                print("categoryyyyyyyyyyyyy")
                 products = Product_version.objects.filter(product__category__in=exact_category)
                 category = exact_category.first()
                 categories = Category.objects.filter(p_category=category)
@@ -102,18 +103,15 @@ class SearchFilterPage(TemplateView):
             if not products.exists():
 
                 if exact_manufacturer.exists():
-                    print("manuuuuuuuuuuufacturer")
                     products = Product_version.objects.filter(product__manufacturer__in=exact_manufacturer)
                     category = exact_manufacturer.first()
                     categories = Category.objects.filter(product_category__product_version__in=products).distinct()
-                    print("11111111111111111", categories)
 
                 else:
                     products = Product_version.objects.filter(Q(product__name__icontains=search_query) | Q(product__description__icontains=search_query))
                     categories = Category.objects.filter(product_category__product_version__in=products).distinct()
                     category = self.get_parent_category(categories)
 
-                    print("2222222222222222",categories)
 
                 # if related_categories:
                 #     categories = related_categories
@@ -133,7 +131,9 @@ class SearchFilterPage(TemplateView):
         for brand in brands:
             print(brand)
         colors = Color.objects.filter(id__in=products.values_list('color', flat=True).distinct())
+        storages = Storage.objects.filter(id__in=products.values_list('storage', flat=True).distinct())
         context['colors'] = colors
+        context['storages'] = storages
         
         return context
 
@@ -143,17 +143,13 @@ class SearchFilterPage(TemplateView):
 
 
 
-from django.views import View
-from django.http import JsonResponse
-from django.urls import reverse
-from django.db.models import Count
-
 class ApplyFilters(View):
     def post(self, request, *args, **kwargs):
         category_id = self.kwargs.get('category_id')
     
         
         selected_categories = request.POST.getlist('categories[]')
+        selected_storages = request.POST.getlist('storages[]')
         selected_brands = request.POST.getlist('brands[]')
         selected_sizes = request.POST.getlist('sizes[]')
         selected_colors = request.POST.getlist('colors[]')
@@ -176,6 +172,8 @@ class ApplyFilters(View):
             products = products.filter(size__name__in=selected_sizes)
         if selected_colors:
             products = products.filter(color__name__in=selected_colors)
+        if selected_storages:
+            products = products.filter(storage__name__in=selected_storages)
 
         if sort_by_option == 'price-asc':
             products = products.order_by('price')
@@ -192,15 +190,16 @@ class ApplyFilters(View):
             products = products.order_by('-review_count')
 
 
-        print(selected_brands, selected_colors)
+        print(selected_brands, selected_storages)
         product_count = products.count()
 
         product_list = [
         {
             'id': product.id,
             'picture': product.cover_image.url,
-            'name': product.product.name,
+            'name':  f"{product.product.name}{f' {product.storage.name}' if product.storage else ''}{f'  {product.color.name}' if product.color else ''}",
             'price': product.price,
+            'category':  product.product.category.name if product.product.category else None,
             'url': reverse('product_detail', args=[product.product.pk]),
         }
         for product in products

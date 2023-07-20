@@ -39,12 +39,12 @@ def SubscribeView(request):
    
     if email:
         try:
-            validate_email(email)  # Validate the email format
+            validate_email(email)
             if Subscriber.objects.filter(email=email).exists():
                 return JsonResponse({'success': False, 'message': 'You are already subscribed.'})
             else:
                 Subscriber.objects.create(email=email)
-                # Perform additional actions if needed
+                # Send confirmation message
                 return JsonResponse({'success': True})
         except ValidationError:
             return JsonResponse({'success': False, 'message': 'Enter true email addres.'})

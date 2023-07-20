@@ -208,7 +208,7 @@ def Remove_from_wishlist(request, product_id=None):
         product_list = wishlist.objects.filter(user=request.user)
 
         if wishlist_quantity > 0:
-            ## Wishliat sehifesinde 1 mehsul qalanda mehsul databazadan silinir ama ajax ile sehifeden silinmir
+
             product_list_data = [
                 {
                     'id': item.id,

@@ -120,7 +120,10 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
                                                     {% if product.discount_price %}
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.discount_price }}</span>

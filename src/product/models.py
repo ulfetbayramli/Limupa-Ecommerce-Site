@@ -8,6 +8,12 @@ class Size(models.Model):
         return self.name
 
 
+class Storage(models.Model):
+    name = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to='product_images/')
@@ -106,6 +112,7 @@ class Product_version(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_version")
     images = models.ManyToManyField(Image, related_name='images_of_products')
     size = models.ManyToManyField(Size, blank= True)
+    storage = models.ForeignKey(Storage, on_delete=models.PROTECT, blank=True, null=True, related_name="product_storage")
     units_sold = models.PositiveIntegerField(default=0)
     
     def __str__(self):

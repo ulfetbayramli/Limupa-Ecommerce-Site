@@ -95,7 +95,10 @@
                                                                         </ul>
                                                                     </div>
                                                                 </div>
-                                                                <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                                <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                                </a></h4>
                                                                 {% if product.discount_price %}
                                                                 <div class="price-box">
                                                                     <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
@@ -203,6 +206,23 @@
                                                 {% for brand in brands %}
                                                 <li><input type="checkbox" name="brand" value="{{ brand }}" class="filter-option">
                                                     <a href="#">{{ brand }} (13)</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </form>
+                                    </div>
+                                 </div>
+                                 {% endif %}
+                                <!-- filter-sub-area end -->
+                                <!-- filter-sub-area start -->
+                                {% if storages %}
+                                <div class="filter-sub-area">
+                                    <h5 class="filter-sub-titel">Memory</h5>
+                                    <div class="categori-checkbox">
+                                        <form action="#">
+                                            <ul>
+                                                {% for storage in storages %}
+                                                <li><input type="checkbox" name="storage" value="{{ storage }}" class="filter-option">
+                                                    <a href="#">{{ storage }} (13)</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </form>
