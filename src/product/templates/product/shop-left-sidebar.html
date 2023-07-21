@@ -168,7 +168,7 @@
                                 <div class="category-sub-menu">
                                     <ul>
                                         {% for category in categories %}
-                                        <li class="has-sub"><a href="#">{{ category }}</a>
+                                        <li><a href="{% url 'search_by_category' category.id %}">{{ category }}</a>
                                         <!-- <li class="has-sub"><a href="# ">Prime Video</a>
                                             <ul>
                                                 <li><a href="#">All Videos</a></li>
@@ -196,6 +196,19 @@
                                 <!-- btn-clear-all start -->
                                 <button class="btn-clear-all mb-sm-30 mb-xs-30">Clear all</button>
                                 <!-- btn-clear-all end -->
+                                <!-- filter-sub-area start -->
+                                <div class="filter-sub-area">
+                                    <h5 class="filter-sub-titel">Price Range</h5>
+                                    <div class="price-range-filter">
+                                        <div class="price-inputs">
+                                            <input type="number" id="min-price" placeholder="Min Price" class="filter-option">
+                                            <span class="price-range-separator">-</span>
+                                            <input type="number" id="max-price" placeholder="Max Price" class="filter-option">
+                                        </div>
+                                        <button type="button" id="apply-price-filter">Apply</button>
+                                    </div>
+                                </div>
+                                <!-- filter-sub-area end -->
                                 <!-- filter-sub-area start -->
                                 {% if brands %}
                                 <div class="filter-sub-area">

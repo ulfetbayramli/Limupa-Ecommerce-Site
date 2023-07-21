@@ -67,7 +67,6 @@ class SearchFilterPage(TemplateView):
     def get_parent_category(self, categories):
         parent_category = None
         for category in categories:
-            print("evvel")
             if not category.p_category:
                 parent_category = category
                 break
@@ -150,6 +149,8 @@ class ApplyFilters(View):
         
         selected_categories = request.POST.getlist('categories[]')
         selected_storages = request.POST.getlist('storages[]')
+        minPrice = request.POST.get('minPrice')
+        maxPrice = request.POST.get('maxPrice')
         selected_brands = request.POST.getlist('brands[]')
         selected_sizes = request.POST.getlist('sizes[]')
         selected_colors = request.POST.getlist('colors[]')
@@ -174,6 +175,10 @@ class ApplyFilters(View):
             products = products.filter(color__name__in=selected_colors)
         if selected_storages:
             products = products.filter(storage__name__in=selected_storages)
+        if minPrice:
+            products = products.filter(price__gte=minPrice)
+        if maxPrice:
+            products = products.filter(price__lte = maxPrice)
 
         if sort_by_option == 'price-asc':
             products = products.order_by('price')

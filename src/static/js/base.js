@@ -222,6 +222,8 @@ $(document).ready(function() {
         $('input[type="checkbox"]').prop('checked', false);
         
         $('.nice-select').val('trending').niceSelect('update');
+        $('#min-price').val('');
+        $('#max-price').val('');
         
         applyFilters();
     });
@@ -236,12 +238,21 @@ $(document).ready(function() {
         applyFilters();
     });
 
+    // $('#min-price, #max-price').on('input', function() {
+    //     applyFilters();
+    // });
+    $('#apply-price-filter').on('click', function() {
+        applyFilters();
+    });
+
     function applyFilters() {
         var selectedCategories = [];
         var selectedBrands = [];
         var selectedSizes = [];
         var selectedColors = [];
         var selectedStorages = [];
+        var minPrice = $('#min-price').val();
+        var maxPrice = $('#max-price').val();
 
         $('input[name="category"]:checked').each(function() {
             selectedCategories.push($(this).val());
@@ -267,6 +278,8 @@ $(document).ready(function() {
             type: 'POST',
             url: 'apply_filters/',
             data: {
+                'minPrice': minPrice,
+                'maxPrice': maxPrice,
                 'storages': selectedStorages,
                 'categories': selectedCategories,
                 'brands': selectedBrands,

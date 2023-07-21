@@ -252,6 +252,63 @@ iframe {
 /*----------------------------------------*/
 /*  1.2 Transition
 /*----------------------------------------*/
+.filter-sub-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-range-filter {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.price-inputs {
+    display: flex;
+    align-items: center;
+}
+
+.price-inputs input {
+    width: 90px;
+	height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+	background-color: white;
+	-moz-appearance: textfield;
+}
+
+.price-inputs input::-webkit-inner-spin-button,
+.price-inputs input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.price-inputs input:focus {
+    background-color: white;
+}
+
+.price-range-separator {
+    margin: 0 10px;
+    color: #ccc;
+}
+
+#apply-price-filter {
+	width: 206px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#apply-price-filter:hover {
+    background-color: rgb(254, 215, 0);
+}
+
+
+
+
+
 a.button::after,
 a.button-small::after {
 	-webkit-transition: all 0.3s ease-out 0s;
