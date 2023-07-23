@@ -1,4 +1,5 @@
 from order.models import basket, wishlist
+from product.models import Category
 
 def basket_context(request):
     data = {}
@@ -20,3 +21,8 @@ def basket_context(request):
         data['subtotal'] = subtotal
     return data
 
+def categories_context(request):
+    categories  = Category.objects.filter(is_main = True)
+    print("v---------------------------------------------------------------------")
+
+    return  {'categories': categories}
