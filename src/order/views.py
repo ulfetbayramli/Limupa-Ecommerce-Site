@@ -38,7 +38,7 @@ class ShoppingCart(ListView):
     def get_context_data(self, **kwargs):
         context = super(ShoppingCart, self).get_context_data(**kwargs)
         context['b_items'] = self.product
-        context['subtotal'] = self.subtotal
+        # context['subtotal'] = self.subtotal
 
         return context
 
@@ -63,6 +63,7 @@ from .models import basket, basket_item
 from django.core import serializers
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+import json
 
 
 @require_POST
@@ -103,6 +104,61 @@ def Add_to_cart(request, product_id=None, category_id=None):
         response = {
             'success': True,
             'message': 'Product added to cart successfully',
+            'basket_quantity': basket_quantity,
+            'basket_total_price': basket_total_price,
+            'product_list': product_list_data,
+            'csrf_token': request.COOKIES['csrftoken'],
+        }
+    else:
+        response = {
+            'success': False,
+            'message': 'User not authenticated',
+        }
+
+    return JsonResponse(response)
+
+
+@require_POST
+def Update_cart(request):
+
+    products = json.loads(request.POST.get('products'))
+    print(type(products), products) # ==> <class 'str'> [{"product_id":8,"quantity":"4"},{"product_id":13,"quantity":"1"}]
+
+    if request.user.is_authenticated:
+        user_basket, created = basket.objects.get_or_create(user=request.user, is_active=True)
+
+        for product_data in products:
+            product_id = product_data['product_id']
+            quantity = product_data['quantity']
+
+            product = Product_version.objects.get(pk=product_id)
+            item = basket_item.objects.filter(user = request.user, product=product).first()
+        
+            if item:
+                item.quantity = quantity
+                item.save()
+            else:
+                new_item = basket_item.objects.create(user = request.user, product=product, quantity= quantity )
+                user_basket.items.add(new_item)
+
+        basket_quantity = user_basket.items.count()
+        basket_total_price = sum(item.product.price * item.quantity for item in user_basket.items.all())
+
+        product_list = basket_item.objects.filter(user=request.user)
+        product_list_data = [
+        {
+            'id': item.id,
+            'picture': item.product.cover_image.url,
+            'name': item.product.product.name,
+            'unit_price': item.product.price,
+            'quantity': item.quantity,
+            'url': reverse('product_detail', args=[item.product.pk]),
+        }
+        for item in product_list
+    ]
+        response = {
+            'success': True,
+            'message': 'Basket updated successfully',
             'basket_quantity': basket_quantity,
             'basket_total_price': basket_total_price,
             'product_list': product_list_data,

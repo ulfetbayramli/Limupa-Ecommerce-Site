@@ -10,6 +10,9 @@ urlpatterns = [
 
 
 
+    path('update_cart/', views.Update_cart, name='update_cart' ),
+    
+    # path('<int:product_id>/add_to_cart/', views.Add_to_cart, name='add_to_cart' ),
     path('<int:product_id>/add_to_cart/', views.Add_to_cart, name='add_to_cart' ),
     path('product/<int:product_id>/add_to_cart/', views.Add_to_cart, name='add_to_cart_detail'),
     path('wishlist/<int:product_id>/add_to_cart/', views.Add_to_cart, name='add_to_cart_detail'),

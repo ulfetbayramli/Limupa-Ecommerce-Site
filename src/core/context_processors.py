@@ -15,6 +15,8 @@ def basket_context(request):
         for item in basket_items:
             subtotal += (item.product.price * item.quantity)
 
+        print(subtotal)
+
         data['basket'] = basket_items
         data['basket_count'] = basket_count
         data['wishlist_count'] = wishlist_count

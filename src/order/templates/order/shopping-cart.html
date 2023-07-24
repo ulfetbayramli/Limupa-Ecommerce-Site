@@ -26,38 +26,38 @@
                         <div class="col-12">
                             <form action="#">
                                 <div class="table-content table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="li-product-remove">remove</th>
-                                                <th class="li-product-thumbnail">images</th>
-                                                <th class="cart-product-name">Product</th>
-                                                <th class="li-product-price">Unit Price</th>
-                                                <th class="li-product-quantity">Quantity</th>
-                                                <th class="li-product-subtotal">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for item in b_items %}
-                                            <tr>
-                                                <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                                <td class="li-product-thumbnail"><a href="#"><img src="{{ item.product.cover_image.url }}" alt="Li's Product Image" class="wishlist-image"></a></td>
-                                                <td class="li-product-name"><a href="#">{{ item.product.product.name }}</a></td>
-                                                <td class="li-product-price"><span class="amount">${{ item.product.product.price }}</span></td>
-                                                <td class="quantity">
-                                                    <label>Quantity</label>
-                                                    <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box" value="{{ item.quantity }}" type="text">
-                                                        <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                        <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                                    </div>
-                                                </td>
-                                                <td class="product-subtotal"><span class="amount">${{ item.product.product.price|multiply:item.quantity }}</span></td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        <table class="table" id="cart-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="li-product-remove">remove</th>
+                                                    <th class="li-product-thumbnail">images</th>
+                                                    <th class="cart-product-name">Product</th>
+                                                    <th class="li-product-price">Unit Price</th>
+                                                    <th class="li-product-quantity">Quantity</th>
+                                                    <th class="li-product-subtotal">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in basket %}
+                                                <tr data-product-id="{{ item.product.pk }}">
+                                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                                    <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src="{{ item.product.cover_image.url }}" alt="Li's Product Image" class="wishlist-image"></a></td>
+                                                    <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}">{{ item.product.product.name }}</a></td>
+                                                    <td class="li-product-price"><span class="amount">${{ item.product.price }}</span></td>
+                                                    <td class="quantity">
+                                                        <label>Quantity</label>
+                                                        <div class="cart-plus-minus">
+                                                            <input class="cart-plus-minus-box"  value="{{ item.quantity }}" type="text">
+                                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-subtotal"><span class="amount">${{ item.product.price|multiply:item.quantity }}</span></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="coupon-all">
@@ -66,7 +66,7 @@
                                                 <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
                                             </div>
                                             <div class="coupon2">
-                                                <input class="button" name="update_cart" value="Update cart" type="submit">
+                                                <input class="button" id="update-cart-button" name="update_cart" value="Update cart" type="submit">
                                             </div>
                                         </div>
                                     </div>
@@ -76,8 +76,8 @@
                                         <div class="cart-page-total">
                                             <h2>Cart totals</h2>
                                             <ul>
-                                                <li>Subtotal <span>${{ subtotal }}</span></li>
-                                                <li>Total <span>${{ subtotal }}</span></li>
+                                                <li>Subtotal <span id="basket-total-priceee">${{ subtotal }}</span></li>
+                                                <li>Total <span id="basket-total-priceee">${{ subtotal }}</span></li>
                                             </ul>
                                             <a href="#">Proceed to checkout</a>
                                         </div>

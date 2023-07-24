@@ -1,3 +1,94 @@
+$(document).on('click', '#update-cart-button', function(e) {
+    e.preventDefault();
+    
+    var productList = [];
+    
+    
+    $('#cart-table tbody tr').each(function() {
+        var productID = $(this).data('product-id');
+        var productQuantity = $(this).find('.cart-plus-minus-box').val();
+        
+        
+        productList.push({ 
+            product_id: productID,
+            quantity: productQuantity
+        });
+    });
+    console.log("oldu", productList)
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/update_cart/',
+        data: {
+            csrfmiddlewaretoken: csrftoken,
+            products: JSON.stringify(productList)
+        },
+        success: function(response) {
+            if (response.success) { 
+
+                $('#basket-quantity').text(response.basket_quantity);
+                $('#basket-total-price').text('£' + response.basket_total_price);
+                $('#basket-total-price2').text('£' + response.basket_total_price);
+                $('#basket-total-priceee').text('£' + response.basket_total_price);
+
+                var productList = response.product_list;
+                var cartTableBody = $('#cart-table tbody');
+                cartTableBody.empty();
+                var $minicartProductList = $('.minicart-product-list');
+                $minicartProductList.empty();
+
+                productList.forEach(product => {
+                    const subtotal = product.unit_price * product.quantity;
+                    console.log(subtotal);
+
+                    cartTableBody.append(`
+                    <tr data-product-id=" ${product.id} ">
+                        <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                        <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src=" ${ product.picture }" alt="Li's Product Image" class="wishlist-image"></a></td>
+                        <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}"> ${ product.name }</a></td>
+                        <td class="li-product-price"><span class="amount">${ product.unit_price }</span></td>
+                        <td class="quantity">
+                            <label>Quantity</label>
+                            <div class="cart-plus-minus">
+                                <input class="cart-plus-minus-box"  value=" ${ product.quantity }" type="text">
+                                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                            </div>
+                        </td>
+                    <td class="product-subtotal"><span class="amount">$ ${subtotal.toFixed(2)} </span></td>                    
+                    </tr>`
+                    );
+                    var productHtml = '<li>' +
+                        '<a href=" ' + product.url + ' " class="minicart-product-image">' +
+                        '<img src="' + product.picture + '" alt="cart products">' +
+                        '</a>' +
+                        '<div class="minicart-product-details">' +
+                        '<h6><a href="'+ product.url +'">' + product.name + '</a></h6>' +
+                        '<span>£' + product.unit_price + ' x ' + product.quantity + '</span>' +
+                        '</div>' +
+                        '<button class="close remove-from-cart-button" data-product-id="' + product.id + '" title="Remove">' +
+                        '<i class="fa fa-close"></i>' +
+                        '</button>' +
+                        '</li>';
+                    $minicartProductList.append(productHtml);
+                
+                });
+                alert(response.message);
+            } else {
+                alert('Failed to update the cart.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+});
+
+
+
+
+
 
 $(document).ready(function() {
 
@@ -58,8 +149,6 @@ $(document).ready(function() {
 
 
 
-
-
     // Remove from cart click event
     $('.minicart-product-list').on('click', '.remove-from-cart-button', function(e) {
         e.preventDefault();
@@ -112,6 +201,7 @@ $(document).ready(function() {
         });
     });
 
+    
 
 
 
