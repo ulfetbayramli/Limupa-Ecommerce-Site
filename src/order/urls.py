@@ -19,6 +19,7 @@ urlpatterns = [
     path('search_by_category/<int:category_id>/<int:product_id>/add_to_cart/', views.Add_to_cart, name='add_to_cart_detail'),
 
     path('<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart' ),
+    path('shopping_cart/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart' ),
     path('product/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),
     path('wishlist/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),
     path('search_by_category/<int:category_id>/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),

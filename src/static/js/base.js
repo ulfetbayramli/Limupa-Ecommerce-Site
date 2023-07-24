@@ -1,4 +1,7 @@
-$(document).on('click', '#update-cart-button', function(e) {
+// $(document).on('click', '#update-cart-button', function(e) {
+
+$('.coupon-all').on('click', '#update-cart-button', function(e) {
+
     e.preventDefault();
     
     var productList = [];
@@ -30,7 +33,7 @@ $(document).on('click', '#update-cart-button', function(e) {
                 $('#basket-quantity').text(response.basket_quantity);
                 $('#basket-total-price').text('£' + response.basket_total_price);
                 $('#basket-total-price2').text('£' + response.basket_total_price);
-                $('#basket-total-priceee').text('£' + response.basket_total_price);
+                $('.basket-total-priceee').text('£' + response.basket_total_price);
 
                 var productList = response.product_list;
                 var cartTableBody = $('#cart-table tbody');
@@ -44,7 +47,7 @@ $(document).on('click', '#update-cart-button', function(e) {
 
                     cartTableBody.append(`
                     <tr data-product-id=" ${product.id} ">
-                        <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                        <td class="li-product-remove"><a href="#" class="remove-from-cart-button" data-product-id="${ product.id }"><i class="fa fa-times"></i></a></td>
                         <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src=" ${ product.picture }" alt="Li's Product Image" class="wishlist-image"></a></td>
                         <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}"> ${ product.name }</a></td>
                         <td class="li-product-price"><span class="amount">${ product.unit_price }</span></td>
@@ -150,11 +153,28 @@ $(document).ready(function() {
 
 
     // Remove from cart click event
+    // $('.minicart-product-list').on('click', '.remove-from-cart-button', function(e) {
+    //     e.preventDefault();
+    // });
+
+
+
     $('.minicart-product-list').on('click', '.remove-from-cart-button', function(e) {
-        e.preventDefault();
+        const productID = $(this).data('product-id');
+        updateBasket(productID);
+    });
+
+    $('.cart-event').on('click', '.remove-from-cart-button', function(e) {
+        const productID = $(this).data('product-id');
+        updateBasket(productID);
+    });
+    
+
+    
+    function updateBasket(productID) {
         console.log("asdfghjklkjhgfdsasdfghj")
 
-        const productID = $(this).data('product-id');
+        // const productID = $(this).data('product-id');
         console.log(productID)
 
         
@@ -170,12 +190,35 @@ $(document).ready(function() {
                     $('#basket-quantity').text(response.basket_quantity);
                     $('#basket-total-price').text('£' + response.basket_total_price);
                     $('#basket-total-price2').text('£' + response.basket_total_price);
+                    $('.basket-total-priceee').text('£' + response.basket_total_price);
                     
                     // Update the product list in the navbar
                     var productList = response.product_list;
+                    var cartTableBody = $('#cart-table tbody');
+                    cartTableBody.empty();
                     var $minicartProductList = $('.minicart-product-list');
                     $minicartProductList.empty();
                     productList.forEach(function(product) {
+                        const subtotal = product.unit_price * product.quantity;
+                        console.log(subtotal);
+
+                        cartTableBody.append(`
+                        <tr data-product-id=" ${product.id} ">
+                            <td class="li-product-remove"><a href="#" class="remove-from-cart-button" data-product-id="${ product.id }"><i class="fa fa-times"></i></a></td>
+                            <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src=" ${ product.picture }" alt="Li's Product Image" class="wishlist-image"></a></td>
+                            <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}"> ${ product.name }</a></td>
+                            <td class="li-product-price"><span class="amount">${ product.unit_price }</span></td>
+                            <td class="quantity">
+                                <label>Quantity</label>
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box"  value=" ${ product.quantity }" type="text">
+                                    <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                    <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                </div>
+                            </td>
+                        <td class="product-subtotal"><span class="amount">$ ${subtotal.toFixed(2)} </span></td>                    
+                        </tr>`
+                        );
                         var productHtml = '<li>' +
                             '<a href=" ' + product.url + ' " class="minicart-product-image">' +
                             '<img src="' + product.picture + '" alt="cart products">' +
@@ -199,7 +242,7 @@ $(document).ready(function() {
                 console.log(error);
             }
         });
-    });
+    }
 
     
 

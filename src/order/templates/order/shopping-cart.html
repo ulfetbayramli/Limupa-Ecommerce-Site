@@ -37,10 +37,10 @@
                                                     <th class="li-product-subtotal">Total</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="cart-event">
                                                 {% for item in basket %}
                                                 <tr data-product-id="{{ item.product.pk }}">
-                                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                                    <td class="li-product-remove" data-product-id="{{ item.pk }}"><a href="#" class="remove-from-cart-button" data-product-id="{{ item.pk }}"><i class="fa fa-times"></i></a></td>
                                                     <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src="{{ item.product.cover_image.url }}" alt="Li's Product Image" class="wishlist-image"></a></td>
                                                     <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}">{{ item.product.product.name }}</a></td>
                                                     <td class="li-product-price"><span class="amount">${{ item.product.price }}</span></td>
@@ -76,8 +76,8 @@
                                         <div class="cart-page-total">
                                             <h2>Cart totals</h2>
                                             <ul>
-                                                <li>Subtotal <span id="basket-total-priceee">${{ subtotal }}</span></li>
-                                                <li>Total <span id="basket-total-priceee">${{ subtotal }}</span></li>
+                                                <li>Subtotal <span class="basket-total-priceee">${{ subtotal }}</span></li>
+                                                <li>Total <span class="basket-total-priceee">${{ subtotal }}</span></li>
                                             </ul>
                                             <a href="#">Proceed to checkout</a>
                                         </div>
