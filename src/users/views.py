@@ -44,7 +44,7 @@ class Register(View):
 
 
             messages.success(request, 'We sent Confirmation Email !')
-            return redirect('users:login')
+            return redirect('login')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -58,7 +58,7 @@ def confirmation(request, uuidb64, token):
         messages.success(request, 'Your account activated') 
         user.is_active = True
         user.save()
-        return redirect("users:login")
+        return redirect("login")
     else:
         messages.error(request, 'your link expired or link invalid')
         return redirect("/")

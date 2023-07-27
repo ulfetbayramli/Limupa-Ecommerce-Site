@@ -79,13 +79,11 @@
                                     <ul class="ht-menu">
                                         <!-- Begin Setting Area -->
                                         <li>
-                                                    {% if user.is_authenticated %}
-                                                    <div class="ht-setting-wrapper"><a href="{% url 'logout' %}">Logout</a></div>
-                                                    {% else %}
-                                                    <div class="ht-setting-wrapper"><a href="{% url 'login' %}">Login</a></div>
-                                                    {% endif %}
-
-                                          
+                                            {% if user.is_authenticated %}
+                                            <div class="ht-setting-wrapper"><a href="{% url 'logout' %}">Logout</a></div>
+                                            {% else %}
+                                            <div class="ht-setting-wrapper"><a href="{% url 'login' %}">Login</a></div>
+                                            {% endif %}
                                         </li>
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->

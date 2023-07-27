@@ -46,7 +46,7 @@ $('.coupon-all').on('click', '#update-cart-button', function(e) {
                     console.log(subtotal);
 
                     cartTableBody.append(`
-                    <tr data-product-id=" ${product.id} ">
+                    <tr data-product-id="${product.p_id}">
                         <td class="li-product-remove"><a href="#" class="remove-from-cart-button" data-product-id="${ product.id }"><i class="fa fa-times"></i></a></td>
                         <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src=" ${ product.picture }" alt="Li's Product Image" class="wishlist-image"></a></td>
                         <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}"> ${ product.name }</a></td>
@@ -150,15 +150,6 @@ $(document).ready(function() {
     });
 
 
-
-
-    // Remove from cart click event
-    // $('.minicart-product-list').on('click', '.remove-from-cart-button', function(e) {
-    //     e.preventDefault();
-    // });
-
-
-
     $('.minicart-product-list').on('click', '.remove-from-cart-button', function(e) {
         const productID = $(this).data('product-id');
         updateBasket(productID);
@@ -168,9 +159,7 @@ $(document).ready(function() {
         const productID = $(this).data('product-id');
         updateBasket(productID);
     });
-    
-
-    
+        
     function updateBasket(productID) {
         console.log("asdfghjklkjhgfdsasdfghj")
 
@@ -200,14 +189,15 @@ $(document).ready(function() {
                     $minicartProductList.empty();
                     productList.forEach(function(product) {
                         const subtotal = product.unit_price * product.quantity;
-                        console.log(subtotal);
+                        console.log(product.unit_price);
+                        console.log("bubububububu");
 
                         cartTableBody.append(`
-                        <tr data-product-id=" ${product.id} ">
-                            <td class="li-product-remove"><a href="#" class="remove-from-cart-button" data-product-id="${ product.id }"><i class="fa fa-times"></i></a></td>
+                        <tr data-product-id="${product.p_id}">
+                            <td class="li-product-remove"><a href="#" class="remove-from-cart-button" data-product-id="${product.id}"><i class="fa fa-times"></i></a></td>
                             <td class="li-product-thumbnail"><a href="{% url 'product_detail' item.product.pk %}"><img src=" ${ product.picture }" alt="Li's Product Image" class="wishlist-image"></a></td>
                             <td class="li-product-name"><a href="{% url 'product_detail' item.product.pk %}"> ${ product.name }</a></td>
-                            <td class="li-product-price"><span class="amount">${ product.unit_price }</span></td>
+                            <td class="li-product-price"><span class="amount">${product.unit_price}</span></td>
                             <td class="quantity">
                                 <label>Quantity</label>
                                 <div class="cart-plus-minus">

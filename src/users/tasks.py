@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.urls import reverse_lazy
+from django.urls import reverse
 
 # from celery import shared_task
 
@@ -22,7 +23,8 @@ from django.conf import settings
 def send_confirmation_mail(user):
     token = account_activation_token.make_token(user) # check if user is exists
     uuid = urlsafe_base64_encode(force_bytes(user.id)) # check who is user
-    redirect_url = f"http://127.0.0.1:8000{reverse_lazy('users:confirmation', kwargs={'uuidb64': uuid,'token': token})}"
+    # redirect_url = f"http://127.0.0.1:8000{reverse_lazy('users:confirmation', kwargs={'uuidb64': uuid,'token': token})}"
+    redirect_url = f"http://127.0.0.1:8000{reverse('confirmation', kwargs={'uuidb64': uuid, 'token': token})}"
     body = render_to_string('users/email/confirmation-email.html', context={'user': user, 'redirect_url': redirect_url})
     message = EmailMessage(subject = "Email Verification", body = body, from_email = settings.EMAIL_HOST_USER, to=[user.email])
     message.content_subtype = 'html'

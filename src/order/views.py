@@ -128,9 +128,8 @@ def Update_cart(request):
         user_basket, created = basket.objects.get_or_create(user=request.user, is_active=True)
 
         for product_data in products:
-            product_id = product_data['product_id']
+            product_id = int(product_data['product_id'])
             quantity = product_data['quantity']
-
             product = Product_version.objects.get(pk=product_id)
             item = basket_item.objects.filter(user = request.user, product=product).first()
         
@@ -148,6 +147,7 @@ def Update_cart(request):
         product_list_data = [
         {
             'id': item.id,
+            'p_id': item.product.id,
             'picture': item.product.cover_image.url,
             'name': item.product.product.name,
             'unit_price': item.product.price,
@@ -193,6 +193,7 @@ def Remove_from_cart(request, product_id=None, category_id=None):
         product_list_data = [
         {
             'id': item.id,
+            'p_id': item.product.id,
             'picture': item.product.cover_image.url,
             'name': item.product.product.name,
             'unit_price': item.product.price,

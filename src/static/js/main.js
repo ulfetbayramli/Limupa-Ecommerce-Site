@@ -467,7 +467,8 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
 /* 22. Cart Plus Minus Button
 /*----------------------------------------*/
  $(".cart-plus-minus").append('<div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>');
- $(".qtybutton").on("click", function() {
+ //  $(".qtybutton").on("click", function() {
+	$('.cart-event').on('click', '.qtybutton', function(e) {
     var $button = $(this);
     var oldValue = $button.parent().find("input").val();
     if ($button.hasClass('inc')) {
