@@ -61,6 +61,13 @@ def Shopleft(request):
 
 from .models import Category, Color, Storage
 
+def get_subcategories(category):
+    subcategories = []
+    for subcategory in category.parent_category.all():
+        subcategories.append(subcategory)
+        subcategories.extend(get_subcategories(subcategory))
+    return subcategories
+
 class SearchFilterPage(TemplateView):
     template_name = 'product/shop-left-sidebar.html'
 
@@ -71,6 +78,7 @@ class SearchFilterPage(TemplateView):
                 parent_category = category
                 break
         return parent_category
+
 
 
     def get_context_data(self, **kwargs):
@@ -85,6 +93,11 @@ class SearchFilterPage(TemplateView):
             category = Category.objects.get(id=category_id)
             categories = Category.objects.filter(p_category=category)
             products = Product_version.objects.filter(product__category=category)
+            if not products:
+                subcategories = get_subcategories(category)
+                print(subcategories)
+                categories = subcategories
+                products = Product_version.objects.filter(product__category__in=subcategories)
 
 
 
@@ -147,7 +160,7 @@ class ApplyFilters(View):
         category_id = self.kwargs.get('category_id')
     
         
-        selected_categories = request.POST.getlist('categories[]')
+        selected_products = request.POST.getlist('products[]')
         selected_storages = request.POST.getlist('storages[]')
         minPrice = request.POST.get('minPrice')
         maxPrice = request.POST.get('maxPrice')
@@ -156,16 +169,16 @@ class ApplyFilters(View):
         selected_colors = request.POST.getlist('colors[]')
         sort_by_option = request.POST.get('sort_by', 'trending')
 
-        if category_id:
-            products = Product_version.objects.filter(product__category__id=category_id)
-            print(products)
-        else:
+        # if category_id:
+        #     products = Product_version.objects.filter(product__category__id=category_id)
+        #     print(products,"111111")
+        # else:
             # products = Product_version.objects.all()
-            if selected_categories:
-                products = Product_version.objects.filter(id__in=selected_categories)
-                print(products) 
-            else:
-                products = Product_version.objects.all()
+        if selected_products:
+            products = Product_version.objects.filter(id__in=selected_products)
+            print(products,"222222222222") 
+        else:
+            products = Product_version.objects.all()
 
         if selected_brands:
             products = products.filter(product__manufacturer__name__in=selected_brands)
@@ -182,7 +195,7 @@ class ApplyFilters(View):
 
         if sort_by_option == 'price-asc':
             products = products.order_by('price')
-            print(products)
+            print(products,"33333333333")
         elif sort_by_option == 'price-desc':
             products = products.order_by('-price')
         elif sort_by_option == 'newest':

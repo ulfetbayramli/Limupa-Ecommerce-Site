@@ -53,6 +53,7 @@
 
     </head>
     <body>
+        <div id="notification" class="notification-message"></div>
     <!--[if lt IE 8]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -219,33 +220,57 @@
                                 <div class="hb-menu">
                                     <nav>
                                         <ul>
-                                            <li class="dropdown-holder"><a href="/">Home</a>
-                                                <ul class="hb-dropdown">
-                                                    <li><a href="/">Home One</a></li>
-                                                </ul>
+                                            <!-- <li class="dropdown-holder"><a href="/">Home</a>     -->
                                             </li>
-                                            <li class="catmenu-dropdown megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
+                                            <li class="catmenu-dropdown megamenu-holder"><a href="{% url 'search_by_category' 16 %}">Telefonlar</a>
                                                 <ul class="megamenu hb-megamenu">
-                                                    <li><a href="shop-left-sidebar.html">Shop Page Layout</a>
+                                                    <li><a hidden></a>
                                                         <ul>
-                                                            <li><a href="shop-3-column.html">Shop 3 Column</a></li>
-                                                            <li><a href="shop-4-column.html">Shop 4 Column</a></li>
+                                                            {% for category in telefone_subcategories %}
+                                                            <li><a href="{% url 'search_by_category' category.id %}" style="color: black; font-weight: 450;"> {{category}}</a></li>
+                                                            {% endfor %}
                                                         </ul>
                                                     </li>
-                                                    <li><a href="single-product-gallery-left.html">Single Product Style</a>
-                                                        <ul>
-                                                            <li><a href="single-product-carousel.html">Single Product Carousel</a></li>
-                                                            <li><a href="single-product-gallery-left.html">Single Product Gallery Left</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">Single Products</a>
-                                                        <ul>
-                                                            <li><a href="#">Single Product</a></li>
-                                                        </ul>
-                                                    </li>
+
                                                 </ul>
                                             </li>
-                                            <li class="dropdown-holder"><a href="blog-left-sidebar.html">Blog</a>
+                                            <li class="catmenu-dropdown megamenu-holder"><a href="{% url 'search_by_category' 4 %}">Kompüterlər</a>
+                                                <ul class="megamenu hb-megamenu">
+                                                    <li><a hidden></a>
+                                                        <ul>
+                                                            {% for category in computer_subcategories %}
+                                                            <li><a href="{% url 'search_by_category' category.id %}" style="color: black; font-weight: 450;"> {{category}}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                            <li class="catmenu-dropdown megamenu-holder"><a href="{% url 'search_by_category' 1 %}">Smart Cihazlar</a>
+                                                <ul class="megamenu hb-megamenu">
+                                                    <li><a hidden></a>
+                                                        <ul>
+                                                            {% for category in sc_subcategories %}
+                                                            <li><a href="{% url 'search_by_category' category.id %}" style="color: black; font-weight: 450;"> {{category}}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                            <li class="catmenu-dropdown megamenu-holder"><a href="{% url 'search_by_category' 8 %}">Oyun Konsolları</a>
+                                                <ul class="megamenu hb-megamenu">
+                                                    <li><a hidden></a>
+                                                        <ul>
+                                                            {% for category in gc_subcategories %}
+                                                            <li><a href="{% url 'search_by_category' category.id %}" style="color: black; font-weight: 450;"> {{category}}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                            <!-- <li class="dropdown-holder"><a href="blog-left-sidebar.html">Blog</a>
                                                 <ul class="hb-dropdown">
                                                     <li class="sub-dropdown-holder"><a href="blog-left-sidebar.html">Blog Grid View</a>
                                                         <ul class="hb-dropdown hb-sub-dropdown">
@@ -276,11 +301,9 @@
                                                     </li>
                                                     </li>
                                                 </ul>
-                                            </li>
+                                            </li> -->
                                             <li><a href="{% url 'about_us' %}">About Us</a></li>
                                             <li><a href="{% url 'contact' %}">Contact</a></li>
-                                            <li><a href="shop-left-sidebar.html">Smartwatch</a></li>
-                                            <li><a href="shop-left-sidebar.html">Accessories</a></li>
                                         </ul>
                                     </nav>
                                 </div>

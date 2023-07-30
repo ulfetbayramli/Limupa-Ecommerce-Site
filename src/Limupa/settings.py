@@ -88,13 +88,14 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.basket_context',
                 'core.context_processors.categories_context',
+                'core.context_processors.category_context',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'Limupa.wsgi.application'
-
+ 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

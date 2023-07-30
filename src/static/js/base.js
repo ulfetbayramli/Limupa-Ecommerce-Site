@@ -1,4 +1,15 @@
-// $(document).on('click', '#update-cart-button', function(e) {
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    
+    notification.style.right = ' 5%';
+    
+    setTimeout(function() {
+      notification.style.right = '-300px';
+    }, 3000);
+  }
+
+
 
 $('.coupon-all').on('click', '#update-cart-button', function(e) {
 
@@ -77,7 +88,8 @@ $('.coupon-all').on('click', '#update-cart-button', function(e) {
                     $minicartProductList.append(productHtml);
                 
                 });
-                alert(response.message);
+                // alert(response.message);
+                showNotification(response.message);
             } else {
                 alert('Failed to update the cart.');
             }
@@ -138,7 +150,8 @@ $(document).ready(function() {
                             '</li>';
                         $minicartProductList.append(productHtml);
                     });
-                    alert(response.message);
+                    // alert(response.message);
+                    showNotification(response.message);
                 } else {
                     alert('Failed to add the product to the cart.');
                 }
@@ -223,7 +236,8 @@ $(document).ready(function() {
                             '</li>';
                         $minicartProductList.append(productHtml);
                     });
-                    alert(response.message);
+                    // alert(response.message);
+                    showNotification(response.message);
                 } else {
                     alert('Failed to delete the product from the cart.');
                 }
@@ -255,7 +269,8 @@ $(document).ready(function() {
                 if (response.success) {
                     $('#wishlist-quantity').text(response.wishlist_quantity);
 
-                    alert(response.message);
+                    // alert(response.message);
+                    showNotification(response.message);
                 } else {
                     alert('Failed to add the product to the wishlist.');
                 }
@@ -290,7 +305,8 @@ $(document).ready(function() {
 
                     $(e.target).closest('tr').remove();
 
-                    alert(response.message);
+                    // alert(response.message);
+                    showNotification(response.message);
                 } else {
                     alert('Failed to add the product to the wishlist.');
                 }
@@ -319,7 +335,8 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    alert('Subscription successful!');
+                    // alert('Subscription successful!');
+                    showNotification(`Subscription successful!`);
                 } else {
                     alert('Subscription failed. ' + response.message);
                 }
@@ -369,7 +386,7 @@ $(document).ready(function() {
     });
 
     function applyFilters() {
-        var selectedCategories = [];
+        var selectedProducts = [];
         var selectedBrands = [];
         var selectedSizes = [];
         var selectedColors = [];
@@ -378,7 +395,7 @@ $(document).ready(function() {
         var maxPrice = $('#max-price').val();
 
         $('input[name="category"]:checked').each(function() {
-            selectedCategories.push($(this).val());
+            selectedProducts.push($(this).val());
         });
 
         $('input[name="storage"]:checked').each(function() {
@@ -404,7 +421,7 @@ $(document).ready(function() {
                 'minPrice': minPrice,
                 'maxPrice': maxPrice,
                 'storages': selectedStorages,
-                'categories': selectedCategories,
+                'products': selectedProducts,
                 'brands': selectedBrands,
                 'sizes': selectedSizes,
                 'colors': selectedColors,

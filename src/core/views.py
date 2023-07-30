@@ -54,8 +54,8 @@ def SubscribeView(request):
 
 
 
-def Error404(request):
-    return render(request , 'core/404.html')
+def Error404(request, exception):
+    return render(request , 'core/404.html', status=404)
 
 def AboutUS(request):
     return render(request , 'core/about-us.html')

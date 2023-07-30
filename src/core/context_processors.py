@@ -28,3 +28,35 @@ def categories_context(request):
     print("v---------------------------------------------------------------------")
 
     return  {'categories': categories}
+
+
+def get_subcategories(category):
+    subcategories = []
+    for subcategory in category.parent_category.all():
+        subcategories.append(subcategory)
+        subcategories.extend(get_subcategories(subcategory))
+    return subcategories
+
+def category_context(request):
+    # main_categories = Category.objects.filter(is_main=True)
+    telefone_category = Category.objects.get(name='telefon')
+    computer_category = Category.objects.get(name='Komputerler')
+    sc_category = Category.objects.get(name='Smart Cihazlar')
+    gc_category = Category.objects.get(name='Oyun konsolları')
+
+    telefone_subcategories = get_subcategories(telefone_category)
+    computer_subcategories = get_subcategories(computer_category)
+    sc_subcategories = get_subcategories(sc_category)
+    gc_subcategories = get_subcategories(gc_category)
+
+    print(telefone_subcategories, "sadfghgfsaddfrgthyjuiolujytrgedswertyuiouybvfcdxsdfergthyjuklikmujynhtbgvfcdxsdefrgtyhujikoumyjnhtbgvfdsxdfrgthyjuk")
+
+    context = {
+        # 'main_categories': main_categories,
+        'telefone_subcategories': telefone_subcategories,
+        'computer_subcategories': computer_subcategories,
+        'sc_subcategories': sc_subcategories,
+        'gc_subcategories': gc_subcategories,
+    }
+
+    return context
