@@ -43,11 +43,14 @@ def category_context(request):
     computer_category = Category.objects.get(name='Komputerler')
     sc_category = Category.objects.get(name='Smart Cihazlar')
     gc_category = Category.objects.get(name='Oyun konsolları')
+    tv_category = Category.objects.get(name='TV, audio, video')
+    
 
     telefone_subcategories = get_subcategories(telefone_category)
     computer_subcategories = get_subcategories(computer_category)
     sc_subcategories = get_subcategories(sc_category)
     gc_subcategories = get_subcategories(gc_category)
+    tv_subcategories = get_subcategories(tv_category)
 
     print(telefone_subcategories, "sadfghgfsaddfrgthyjuiolujytrgedswertyuiouybvfcdxsdfergthyjuklikmujynhtbgvfcdxsdefrgtyhujikoumyjnhtbgvfdsxdfrgthyjuk")
 
@@ -57,6 +60,7 @@ def category_context(request):
         'computer_subcategories': computer_subcategories,
         'sc_subcategories': sc_subcategories,
         'gc_subcategories': gc_subcategories,
+        'tv_subcategories': tv_subcategories,
     }
 
     return context

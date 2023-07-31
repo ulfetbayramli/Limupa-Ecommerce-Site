@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.db.models import Sum
@@ -14,6 +14,13 @@ class HomePage(ListView):
 
     # def get_queryset(self):
     #     return Product_version.objects.order_by("-date").all()[:2]
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        print(request.session.get('show_registration_message',"6666666666666666666666666666666"))
+        if request.session.get('show_registration_message', False):
+            request.session.pop('show_registration_message')
+        return response
+
 
     def get_context_data(self, **kwargs):
         context = super(HomePage, self).get_context_data(**kwargs)
@@ -28,7 +35,7 @@ class HomePage(ListView):
 
 from django.http import JsonResponse
 from django.views import View
-from .forms import SubscriberForm
+from .forms import SubscriberForm, ContactForm
 from .models import Subscriber
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -52,6 +59,37 @@ def SubscribeView(request):
         return JsonResponse({'success': False, 'message': 'Email field is required.'})
 
 
+from django.http import JsonResponse
+from django.views import View
+from .models import Contact
+
+class ContactView(View):
+    def get(self, request):
+        return render(request, 'core/contact.html')
+
+    def post(self, request):
+        customer_name = request.POST.get('customerName')
+        customer_email = request.POST.get('customerEmail')
+        contact_subject = request.POST.get('contactSubject')
+        contact_message = request.POST.get('contactMessage')
+
+        if customer_name and customer_email and contact_subject and contact_message:
+            contact = Contact(
+                name=customer_name,
+                email=customer_email,
+                subject=contact_subject,
+                message=contact_message
+            )
+            contact.save()
+
+            messages.success(request, 'Message sent successfully.')
+            return redirect('contact')
+        else:
+            messages.error(request, 'Please fill in all required fields.')
+            return redirect('contact')
+
+
+
 
 
 def Error404(request, exception):
@@ -60,8 +98,8 @@ def Error404(request, exception):
 def AboutUS(request):
     return render(request , 'core/about-us.html')
 
-def Contact(request):
-    return render(request , 'core/contact.html')
+# def Contact(request):
+#     return render(request , 'core/contact.html')
 
 def Faq(request):
     return render(request , 'core/faq.html')

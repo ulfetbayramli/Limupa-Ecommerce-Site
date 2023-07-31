@@ -76,7 +76,7 @@ class basket_item(models.Model):
         verbose_name_plural = "Basket items"
 
 class basket(models.Model):
-    user = models.ForeignKey(User, on_delete=models.Case,null=True, blank=True, related_name="user_basket")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True, related_name="user_basket")
     items = models.ManyToManyField(basket_item, related_name="basket_items")
     is_active = models.BooleanField(default=True)
 

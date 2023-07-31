@@ -270,6 +270,18 @@
 
                                                 </ul>
                                             </li>
+                                            <li class="catmenu-dropdown megamenu-holder"><a href="{% url 'search_by_category' 8 %}">TV, audio, video</a>
+                                                <ul class="megamenu hb-megamenu">
+                                                    <li><a hidden></a>
+                                                        <ul>
+                                                            {% for category in tv_subcategories %}
+                                                            <li><a href="{% url 'search_by_category' category.id %}" style="color: black; font-weight: 450;"> {{category}}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
                                             <!-- <li class="dropdown-holder"><a href="blog-left-sidebar.html">Blog</a>
                                                 <ul class="hb-dropdown">
                                                     <li class="sub-dropdown-holder"><a href="blog-left-sidebar.html">Blog Grid View</a>
@@ -304,6 +316,7 @@
                                             </li> -->
                                             <li><a href="{% url 'about_us' %}">About Us</a></li>
                                             <li><a href="{% url 'contact' %}">Contact</a></li>
+                                            <li><a href="{% url 'faq' %}">FAQ</a></li>
                                         </ul>
                                     </nav>
                                 </div>

@@ -58,7 +58,10 @@ def confirmation(request, uuidb64, token):
         messages.success(request, 'Your account activated') 
         user.is_active = True
         user.save()
+        request.session['show_registration_message'] = True
         return redirect("login")
     else:
         messages.error(request, 'your link expired or link invalid')
         return redirect("/")
+
+

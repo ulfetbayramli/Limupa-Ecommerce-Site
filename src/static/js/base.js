@@ -7,9 +7,13 @@ function showNotification(message) {
     setTimeout(function() {
       notification.style.right = '-300px';
     }, 3000);
-  }
+ }
 
 
+
+function closeMessage() {
+    document.querySelector('.registration-message').style.display = 'none';
+}
 
 $('.coupon-all').on('click', '#update-cart-button', function(e) {
 
