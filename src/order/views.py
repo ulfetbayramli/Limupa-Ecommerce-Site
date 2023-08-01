@@ -8,6 +8,9 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.urls import reverse
 from .models import wishlist, Product_version
+from .models import shipping_addresses
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 # Create your views here.
 
 #Login olmayan istifadeciler ucun ayrica mesaj yazilmalidir
@@ -49,12 +52,28 @@ def Cart(request):
 def Checkout(request):
     return render(request , 'order/checkout.html')
 
-# def ShoppingCart(request):
-#     return render(request , 'order/shopping-cart.html')
 
 
+def Shippping(request):
+    name = request.POST.get('nameInput')
+    lastname = request.POST.get('lastnameInput')
+    address = request.POST.get('addressInput')
+    city = request.POST.get('citylInput')
+    state = request.POST.get('stateInput')
+    zip = request.POST.get('zipInput')
+    email = request.POST.get('emailInput')
+    phone = request.POST.get('phoneInput')
+   
+    if email and name and address and city and state and zip and phone:
+        try:
+            validate_email(email)
+            shipping_addresses.objects.create(first_name=name, last_name=lastname, telephone=phone, email=email, province= state , city=city,   street_address=address, zip=zip)
+            return JsonResponse({'success': True, 'message': 'Order details saved succesfully'})
 
-
+        except ValidationError:
+            return JsonResponse({'success': False, 'message': 'Enter true email addres.'})
+    else:
+        return JsonResponse({'success': False, 'message': 'All fields is required.'})
 
 
 from django.views.decorators.http import require_POST
@@ -85,6 +104,9 @@ def Add_to_cart(request, product_id=None, category_id=None):
         else:
             new_item = basket_item.objects.create(user = request.user, product=product, quantity= quantity )
             user_basket.items.add(new_item)
+
+        product.in_basket = True
+        product.save()
 
         basket_quantity = user_basket.items.count()
         basket_total_price = sum(item.product.price * item.quantity for item in user_basket.items.all())
@@ -182,7 +204,10 @@ def Remove_from_cart(request, product_id=None, category_id=None):
 
     if request.user.is_authenticated:
         basket_itemm = get_object_or_404(basket_item, pk = basket_item_id , user = request.user)
+        product = basket_itemm.product
+        product.in_basket = False
         basket_itemm.delete()
+        product.save()
 
         user_basket = basket.objects.filter(user=request.user, is_active=True).first()
 
@@ -232,6 +257,9 @@ def Add_to_wishlist(request, product_id=None, category_id=None):
         user_wishlist = wishlist.objects.get(user=request.user)
         user_wishlist.product.add(product)
         user_wishlist.save()
+        product.in_wishlist = True
+        product.save()
+
 
 
         user_wishlist = wishlist.objects.get(user=request.user)
@@ -260,6 +288,8 @@ def Remove_from_wishlist(request, product_id=None):
     if request.user.is_authenticated:
         user_wishlist = get_object_or_404(wishlist, user=request.user)
         user_wishlist.product.remove(product)
+        product.in_wishlist = False
+        product.save()
 
         wishlist_quantity = user_wishlist.product.count()
         product_list = wishlist.objects.filter(user=request.user)

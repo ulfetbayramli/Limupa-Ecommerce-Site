@@ -114,6 +114,9 @@ class Product_version(models.Model):
     size = models.ManyToManyField(Size, blank= True)
     storage = models.ForeignKey(Storage, on_delete=models.PROTECT, blank=True, null=True, related_name="product_storage")
     units_sold = models.PositiveIntegerField(default=0)
+    in_wishlist = models.BooleanField(default=False, help_text='Check if the product is in wishlist')
+    in_basket = models.BooleanField(default=False, help_text='Check if the product is basket')
+    
     
     def __str__(self):
         return f"{self.product.name}'s {self.color.name} version"

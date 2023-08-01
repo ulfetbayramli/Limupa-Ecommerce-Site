@@ -46,7 +46,7 @@
                         <div class="col-lg-7 col-md-6">
                             <div class="product-details-view-content pt-60">
                                 <div class="product-info">
-                                    <h2>{{ product.product.name }} </h2>
+                                    <h2>{{ product.product.name }} {{ product.storage }} {{ product.color }} </h2>
                                     <!-- <span class="product-details-ref">Reference: demo_15</span> -->
                                     <div class="rating-box pt-20">
                                         <ul class="rating rating-with-review-item">
@@ -69,13 +69,25 @@
                                         </p>
                                     </div>
                                     <div class="product-variants">
-                                        <div class="produt-variants-size">
-                                            <label>Dimension</label>
+                                        <div class="produt-variants-size">   
+                                            <label for="product-storage">Storage:</label>
+                                            <div class="storage-options">
+                                                {% for p_version in p_versions %}
+                                                        <a href="{% url 'product_detail' p_version.id  %}">
+                                                            <div class="storage-option {% if p_version.id == product.id  %} selected {% endif %}">
+                                                                <label class="color-option {% if p_version.id == product.id  %} selected {% endif %}" style="background-color: {{ p_version.color.color_code }};"></label>
+                                                                <span>{{ p_version.storage }} </span>
+                                                            </div>
+                                                        </a>
+                                                {% endfor %}
+                                            </div>  
+                                            <br>
+                                            <!-- <label>Dimension</label>
                                             <select class="nice-select">
                                                 <option value="1" title="S" selected="selected">40x60cm</option>
                                                 <option value="2" title="M">60x90cm</option>
                                                 <option value="3" title="L">80x120cm</option>
-                                            </select>
+                                            </select> -->
                                         </div>
                                     </div>
                                     <div  id="product-id" hidden> {{ product.pk }}</div>
@@ -177,21 +189,21 @@
                                             <li><i class="fa fa-star-o"></i></li>
                                             <li><i class="fa fa-star-o"></i></li>
                                             <li><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            <li><i class="fa fa-star-o"></i></li>
                                             <li class="no-star"><i class="fa fa-star-o"></i></li>
                                         </ul>
                                     </div>
                                     <div class="comment-author-infos pt-25">
-                                        <span>HTML 5</span>
-                                        <em>01-12-18</em>
+                                        <span>Alfred Johanson</span>
+                                        <em>01-08-23</em>
                                     </div>
                                     <div class="comment-details">
-                                        <h4 class="title-block">Demo</h4>
-                                        <p>Plaza</p>
+                                        <h4 class="title-block">Very well</h4>
+                                        <p>It is just perfect</p>
                                     </div>
-                                    <div class="review-btn">
+                                    <!-- <div class="review-btn">
                                         <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Write Your Review!</a>
-                                    </div>
+                                    </div> -->
                                     <!-- Begin Quick View | Modal Area -->
                                     <div class="modal fade modal-wrapper" id="mymodal" >
                                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -284,10 +296,11 @@
                                 <div class="product-active owl-carousel">
                                     {% for product in related_p %}
                                     <div class="col-lg-12">
+                                        <div  id="product-id" hidden> {{ product.pk }}</div>
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="singleproduct">
+                                                <a href="{% url 'product_detail' product.pk  %}">
                                                     <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -296,7 +309,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="product_detail">Graphic Corner</a>
+                                                            <a href="{% url 'search_by_category' product.product.category.id %}">{{ product.product.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -308,16 +321,28 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{{ product.cover_image.url }}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
+                                                    {% if product.discount_price %}
                                                     <div class="price-box">
-                                                        <span class="new-price">${{ product.price }}</span>
+                                                        <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
+                                                        <span class="old-price">${{ product.price }}</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
+                                                    {% else %}
+                                                    <div class="price-box">
+                                                        <span class="new-price new-price-2">$ {{ product.price }}</span>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="add-actions">
+                                                    {% csrf_token %}
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                                        <li><a class="links-details" href="wishlist"><i class="fa fa-heart-o"></i></a></li>
+                                                        <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                        <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
                                             </div>

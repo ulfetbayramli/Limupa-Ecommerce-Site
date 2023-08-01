@@ -353,6 +353,46 @@ $(document).ready(function() {
 
 
 
+    $('.save-order-details').click(function(e) {
+        e.preventDefault();
+
+        const orderForm = document.getElementById('order-form');
+        const nameInput = document.getElementById('od-name').value;
+        const lastnameInput = document.getElementById('od-lastname').value;
+        const addressInput = document.getElementById('od-address').value;
+        const citylInput = document.getElementById('od-city').value;
+        const stateInput = document.getElementById('od-state').value;
+        const zipInput = document.getElementById('od-zip').value;
+        const emailInput = document.getElementById('od-email').value;
+        const phoneInput = document.getElementById('od-phone').value;
+        console.log("cagirildi")
+        $.ajax({
+            type: 'POST',
+            url:"/shipping/",
+            data: {
+                csrfmiddlewaretoken: csrftoken,
+                nameInput: nameInput,
+                lastnameInput: lastnameInput,
+                addressInput: addressInput,
+                citylInput: citylInput,
+                stateInput: stateInput,
+                zipInput: zipInput,
+                emailInput: emailInput,
+                phoneInput: phoneInput,
+            },
+            success: function(response) {
+                console.log("successs")
+                if (response.success) {
+                    showNotification(`Your order information saved succesfully!`);
+                } else {
+                    alert('Failed to save order details. ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
 
 
 

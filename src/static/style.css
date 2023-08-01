@@ -1888,6 +1888,45 @@ textarea:focus {
 	transition: all 0.3s ease-in-out;
 	color: #242424;
 }
+
+
+.storage-options {
+    display: flex;
+}
+
+.storage-option {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+	border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.storage-option span{
+	color: #000;
+}
+
+.color-option {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+	margin-top: 7px;
+    vertical-align: middle; /* Add this line to align the color circle with the text */
+}
+
+/* Add styles for the selected option */
+.storage-option.selected {
+	background-color: #fed700	;
+    border: 2px solid  #fed700	;
+}
+
+.color-option.selected {
+    border: 2px solid white;
+}
+
+
 /* bura  .hb-menu nav > ul > li:nth-child(n+5) > a::after */
 .hb-menu nav > ul > li:nth-child(n+0) > a::after {
 	content: none;

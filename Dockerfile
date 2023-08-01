@@ -14,4 +14,5 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY src/ /app/
 
-CMD ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python src/manage.py runserver 0.0.0.0:8000 & python src/manage.py weekly_email"]

@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Sum
 from django.views.generic import ListView
 from product.models import Product_version
+from django.db.models import Q
 
 
 
@@ -27,8 +28,8 @@ class HomePage(ListView):
         context['new_ps'] = Product_version.objects.order_by("date_added").all()[:7]
         context['bestseller_ps'] = Product_version.objects.order_by('-units_sold').all()[:7]
         context['featured_ps'] = Product_version.objects.order_by( "review_count").all()[:7]
-        context['laptop'] = Product_version.objects.filter(product__category__name = 'Noutbuk' )
-        context['tvaudio'] = Product_version.objects.filter(product__category__name = 'Noutbuk' )
+        context['laptop'] = Product_version.objects.filter(product__category__name = 'Noutbuklar' )
+        context['tvaudio'] = Product_version.objects.filter(Q(product__category__name = 'TV, audio, video') | Q(product__category__p_category__name = 'TV, audio, video'))
         context['trendings'] = Product_version.objects.order_by('-units_sold').all()[:7]
         return context
 
@@ -62,6 +63,7 @@ def SubscribeView(request):
 from django.http import JsonResponse
 from django.views import View
 from .models import Contact
+from django.contrib import messages
 
 class ContactView(View):
     def get(self, request):
@@ -82,10 +84,10 @@ class ContactView(View):
             )
             contact.save()
 
-            messages.success(request, 'Message sent successfully.')
+            # messages.success(request, 'Message sent successfully.')
             return redirect('contact')
         else:
-            messages.error(request, 'Please fill in all required fields.')
+            # messages.error(request, 'Please fill in all required fields.')
             return redirect('contact')
 
 

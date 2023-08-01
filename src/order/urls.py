@@ -22,6 +22,7 @@ urlpatterns = [
     path('shopping_cart/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart' ),
     path('product/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),
     path('wishlist/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),
+    path('checkout/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),
     path('search_by_category/<int:category_id>/<int:product_id>/remove_from_cart/', views.Remove_from_cart, name='remove_from_cart_detail'),
 
     path('<int:product_id>/add_to_wishlist/', views.Add_to_wishlist, name='add_to_wishlist' ),
@@ -29,6 +30,7 @@ urlpatterns = [
     path('search_by_category/<int:category_id>/<int:product_id>/add_to_wishlist/', views.Add_to_wishlist, name='add_to_wishlist'),
 
     path('wishlist/<int:product_id>/remove_from_wishlist/', views.Remove_from_wishlist, name='remove_from_wishlist' ),
+    path('shipping/', views.Shippping, name='shipping'),
 
 
 ]

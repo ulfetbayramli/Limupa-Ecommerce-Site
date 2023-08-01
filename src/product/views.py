@@ -44,6 +44,8 @@ class SingleProduct(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SingleProduct, self).get_context_data(**kwargs)
         product = self.get_object()
+        context['p_versions'] = Product_version.objects.filter(product=product.product).order_by('id')
+        print(Product_version.objects.filter(product = product.product), "333333333333333333333333333333333333333333333333333")
         context['images'] = product.images.all()
         context['related_p'] = Product_version.objects.filter(Q(product__category__p_category__name = kwargs['object'].product.category.p_category) | Q(product__category__name = kwargs['object'].product.category), ~Q(pk = self.kwargs.get("pk")), ~Q(product = kwargs["object"].product)).order_by('product').all().distinct('product')[:15]
 

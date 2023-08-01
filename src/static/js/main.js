@@ -501,6 +501,37 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
     $button.parent().find("input").val(newVal);
    });
 
+// Get color and storage option elements
+const colorOptions = document.querySelectorAll('.color-option');
+const storageOptions = document.querySelectorAll('.storage-option');
+
+// Function to handle color option selection
+function selectColorOption() {
+  colorOptions.forEach((option) => {
+    option.classList.remove('selected');
+  });
+  this.classList.add('selected');
+}
+
+// Function to handle storage option selection
+function selectStorageOption() {
+  storageOptions.forEach((option) => {
+    option.classList.remove('selected');
+  });
+  this.classList.add('selected');
+}
+
+// Add click event listeners to color options
+colorOptions.forEach((option) => {
+  option.addEventListener('click', selectColorOption);
+});
+
+// Add click event listeners to storage options
+storageOptions.forEach((option) => {
+  option.addEventListener('click', selectStorageOption);
+});
+
+   
 
 /*----------------------------------------*/
 /* 23. Single Prduct Carousel Activision

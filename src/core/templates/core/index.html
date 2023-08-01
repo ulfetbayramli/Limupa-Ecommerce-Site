@@ -141,7 +141,7 @@
                                                     <ul class="add-actions-link">
                                                         <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
                                                         <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
                                             </div>
@@ -157,10 +157,11 @@
                                 <div class="product-active owl-carousel">
                                     {% for product in bestseller_ps  %}
                                     <div class="col-lg-12">
+                                        <div  id="product-id" hidden> {{ product.pk }}</div>
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="{% url 'product_detail' product.pk %}">
+                                                <a href="{% url 'product_detail' product.pk  %}">
                                                     <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -181,12 +182,15 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
                                                     {% if product.discount_price %}
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                         <span class="old-price">${{ product.price }}</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
                                                     {% else %}
                                                     <div class="price-box">
@@ -195,10 +199,11 @@
                                                     {% endif %}
                                                 </div>
                                                 <div class="add-actions">
+                                                    {% csrf_token %}
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                        <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                        <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
                                             </div>
@@ -214,10 +219,11 @@
                                 <div class="product-active owl-carousel">
                                     {% for product in featured_ps  %}
                                     <div class="col-lg-12">
+                                        <div  id="product-id" hidden> {{ product.pk }}</div>
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="{% url 'product_detail' product.pk %}">
+                                                <a href="{% url 'product_detail' product.pk  %}">
                                                     <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -238,12 +244,15 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
                                                     {% if product.discount_price %}
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                         <span class="old-price">${{ product.price }}</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
                                                     {% else %}
                                                     <div class="price-box">
@@ -252,10 +261,11 @@
                                                     {% endif %}
                                                 </div>
                                                 <div class="add-actions">
+                                                    {% csrf_token %}
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                        <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                        <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
                                             </div>
@@ -315,20 +325,21 @@
                                 <h2>
                                     <span>Laptop</span>
                                 </h2>
-                                <ul class="li-sub-category-list">
+                                <!-- <ul class="li-sub-category-list">
                                     <li class="active"><a href="#">Prime Video</a></li>
                                     <li><a href="#">Computers</a></li>
                                     <li><a href="#">Electronics</a></li>
-                                </ul>
+                                </ul> -->
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
                                     {% for product in laptop  %}
                                     <div class="col-lg-12">
+                                        <div  id="product-id" hidden> {{ product.pk }}</div>
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="{% url 'product_detail' product.pk %}">
+                                                <a href="{% url 'product_detail' product.pk  %}">
                                                     <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -349,12 +360,15 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
                                                     {% if product.discount_price %}
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                         <span class="old-price">${{ product.price }}</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
                                                     {% else %}
                                                     <div class="price-box">
@@ -363,10 +377,11 @@
                                                     {% endif %}
                                                 </div>
                                                 <div class="add-actions">
+                                                    {% csrf_token %}
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                        <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                        <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
                                             </div>
@@ -392,20 +407,21 @@
                                 <h2>
                                     <span>TV & Audio</span>
                                 </h2>
-                                <ul class="li-sub-category-list">
+                                <!-- <ul class="li-sub-category-list">
                                     <li class="active"><a href="#">Chamcham</a></li>
                                     <li><a href="#">Sanai</a></li>
                                     <li><a href="#">Meito</a></li>
-                                </ul>
+                                </ul> -->
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
                                     {% for product in tvaudio  %}
                                     <div class="col-lg-12">
+                                        <div  id="product-id" hidden> {{ product.pk }}</div>
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="{% url 'product_detail' product.pk %}">
+                                                <a href="{% url 'product_detail' product.pk  %}">
                                                     <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -426,12 +442,15 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
                                                     {% if product.discount_price %}
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
-                                                        <span class="old-price">${{ product.product.price }}</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        <span class="old-price">${{ product.price }}</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
                                                     {% else %}
                                                     <div class="price-box">
@@ -440,13 +459,14 @@
                                                     {% endif %}
                                                 </div>
                                                 <div class="add-actions">
+                                                    {% csrf_token %}
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                        <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                        <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
-                                             </div>
+                                            </div>
                                         </div>
                                         <!-- single-product-wrap end -->
                                     </div>
@@ -496,11 +516,11 @@
                                 <h2>
                                     <span>Trendding Products</span>
                                 </h2>
-                                <ul class="nav li-product-menu li-trending-product-menu">
+                                <!-- <ul class="nav li-product-menu li-trending-product-menu">
                                    <li><a class="active" data-toggle="tab" href="#home1"><span>Sanai</span></a></li>
                                    <li><a data-toggle="tab" href="#home2"><span>Camera Accessories</span></a></li>
                                    <li><a data-toggle="tab" href="#home3"><span>XailStation</span></a></li>
-                                </ul>               
+                                </ul>                -->
                             </div>
                             <!-- Begin Li's Tab Menu Content Area -->
                             <div class="tab-content li-tab-content li-trending-product-content">
@@ -509,10 +529,11 @@
                                         <div class="product-active owl-carousel">
                                             {% for product in trendings  %}
                                             <div class="col-lg-12">
+                                                <div  id="product-id" hidden> {{ product.pk }}</div>
                                                 <!-- single-product-wrap start -->
                                                 <div class="single-product-wrap">
                                                     <div class="product-image">
-                                                        <a href="{% url 'product_detail' product.pk %}">
+                                                        <a href="{% url 'product_detail' product.pk  %}">
                                                             <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                         </a>
                                                         <span class="sticker">New</span>
@@ -533,12 +554,15 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-                                                            <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                            <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                            {% if product.storage %} {{ product.storage }} {% endif %}
+                                                            {% if product.color %} {{ product.color }} {% endif %}
+                                                            </a></h4>
                                                             {% if product.discount_price %}
                                                             <div class="price-box">
                                                                 <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                                 <span class="old-price">${{ product.price }}</span>
-                                                                <span class="discount-percentage">-7%</span>
+                                                                <!-- <span class="discount-percentage">-7%</span> -->
                                                             </div>
                                                             {% else %}
                                                             <div class="price-box">
@@ -547,13 +571,14 @@
                                                             {% endif %}
                                                         </div>
                                                         <div class="add-actions">
+                                                            {% csrf_token %}
                                                             <ul class="add-actions-link">
-                                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                                <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                                <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                                <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                                <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                             </ul>
                                                         </div>
-                                                     </div>
+                                                    </div>
                                                 </div>
                                                 <!-- single-product-wrap end -->
                                             </div>
@@ -566,10 +591,11 @@
                                         <div class="product-active owl-carousel">
                                             {% for product in tvaudio  %}
                                             <div class="col-lg-12">
+                                                <div  id="product-id" hidden> {{ product.pk }}</div>
                                                 <!-- single-product-wrap start -->
                                                 <div class="single-product-wrap">
                                                     <div class="product-image">
-                                                        <a href="{% url 'product_detail' product.pk %}">
+                                                        <a href="{% url 'product_detail' product.pk  %}">
                                                             <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                         </a>
                                                         <span class="sticker">New</span>
@@ -590,12 +616,15 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-                                                            <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                            <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                            {% if product.storage %} {{ product.storage }} {% endif %}
+                                                            {% if product.color %} {{ product.color }} {% endif %}
+                                                            </a></h4>
                                                             {% if product.discount_price %}
                                                             <div class="price-box">
                                                                 <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                                 <span class="old-price">${{ product.price }}</span>
-                                                                <span class="discount-percentage">-7%</span>
+                                                                <!-- <span class="discount-percentage">-7%</span> -->
                                                             </div>
                                                             {% else %}
                                                             <div class="price-box">
@@ -604,13 +633,14 @@
                                                             {% endif %}
                                                         </div>
                                                         <div class="add-actions">
+                                                            {% csrf_token %}
                                                             <ul class="add-actions-link">
-                                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                                <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                                <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                                <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                                <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                             </ul>
                                                         </div>
-                                                     </div>
+                                                    </div>
                                                 </div>
                                                 <!-- single-product-wrap end -->
                                             </div>
@@ -623,10 +653,11 @@
                                         <div class="product-active owl-carousel">
                                             {% for product in tvaudio  %}
                                             <div class="col-lg-12">
+                                                <div  id="product-id" hidden> {{ product.pk }}</div>
                                                 <!-- single-product-wrap start -->
                                                 <div class="single-product-wrap">
                                                     <div class="product-image">
-                                                        <a href="{% url 'product_detail' product.pk %}">
+                                                        <a href="{% url 'product_detail' product.pk  %}">
                                                             <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                         </a>
                                                         <span class="sticker">New</span>
@@ -647,12 +678,15 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-                                                            <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                            <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                            {% if product.storage %} {{ product.storage }} {% endif %}
+                                                            {% if product.color %} {{ product.color }} {% endif %}
+                                                            </a></h4>
                                                             {% if product.discount_price %}
                                                             <div class="price-box">
                                                                 <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                                 <span class="old-price">${{ product.price }}</span>
-                                                                <span class="discount-percentage">-7%</span>
+                                                                <!-- <span class="discount-percentage">-7%</span> -->
                                                             </div>
                                                             {% else %}
                                                             <div class="price-box">
@@ -661,13 +695,14 @@
                                                             {% endif %}
                                                         </div>
                                                         <div class="add-actions">
+                                                            {% csrf_token %}
                                                             <ul class="add-actions-link">
-                                                                <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                                <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                                <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                                <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                                <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                                <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                             </ul>
                                                         </div>
-                                                     </div>
+                                                    </div>
                                                 </div>
                                                 <!-- single-product-wrap end -->
                                             </div>
@@ -698,10 +733,11 @@
                                 <div class="product-active owl-carousel">
                                     {% for product in bestseller_ps  %}
                                     <div class="col-lg-12">
+                                        <div  id="product-id" hidden> {{ product.pk }}</div>
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="{% url 'product_detail' product.pk %}">
+                                                <a href="{% url 'product_detail' product.pk  %}">
                                                     <img src="{{ product.cover_image.url }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -722,12 +758,15 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_detail' product.pk %}">{{ product.product.name }} 
+                                                    {% if product.storage %} {{ product.storage }} {% endif %}
+                                                    {% if product.color %} {{ product.color }} {% endif %}
+                                                    </a></h4>
                                                     {% if product.discount_price %}
                                                     <div class="price-box">
                                                         <span class="new-price new-price-2">$ {{ product.discount_price }}</span>
                                                         <span class="old-price">${{ product.price }}</span>
-                                                        <span class="discount-percentage">-7%</span>
+                                                        <!-- <span class="discount-percentage">-7%</span> -->
                                                     </div>
                                                     {% else %}
                                                     <div class="price-box">
@@ -736,10 +775,11 @@
                                                     {% endif %}
                                                 </div>
                                                 <div class="add-actions">
+                                                    {% csrf_token %}
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                        <li class="add-cart active"><a href="#" class="add-to-cart-button" data-product-id="{{ product.pk }}">Add to cart</a></li>
+                                                        <li><a class="links-details add-to-wishlist-button" href="#" data-product-id="{{ product.pk }}"><i class="fa fa-heart-o"></i></a></li>
+                                                        <!-- <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li> -->
                                                     </ul>
                                                 </div>
                                             </div>
