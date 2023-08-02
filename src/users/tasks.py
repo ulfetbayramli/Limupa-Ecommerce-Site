@@ -29,4 +29,3 @@ def send_confirmation_mail(user):
     message = EmailMessage(subject = "Email Verification", body = body, from_email = settings.EMAIL_HOST_USER, to=[user.email])
     message.content_subtype = 'html'
     message.send()
-
