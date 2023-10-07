@@ -106,12 +106,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Limupa', 
-        'USER': 'postgres',
+        'USER': 'postgres', 
         'PASSWORD': '1234',
-        'HOST': 'db', 
+        'HOST': '127.0.0.1', 
         'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'railway', 
+#         'USER': 'postgres',
+#         'PASSWORD': 'iuraHbLsnxc9fMx9zqvw',
+#         'HOST': 'containers-us-west-32.railway.app', 
+#         'PORT': '6951',
+#     }
+# }
 
 
 # Password validation

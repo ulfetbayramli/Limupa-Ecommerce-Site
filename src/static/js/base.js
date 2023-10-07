@@ -157,7 +157,7 @@ $(document).ready(function() {
                     // alert(response.message);
                     showNotification(response.message);
                 } else {
-                    alert('Failed to add the product to the cart.');
+                    alert(response.message);
                 }
             },
             error: function(xhr, status, error) {

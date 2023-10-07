@@ -76,7 +76,11 @@
                                                         <a href="{% url 'product_detail' p_version.id  %}">
                                                             <div class="storage-option {% if p_version.id == product.id  %} selected {% endif %}">
                                                                 <label class="color-option {% if p_version.id == product.id  %} selected {% endif %}" style="background-color: {{ p_version.color.color_code }};"></label>
+                                                                {% if p_version.storage %}
                                                                 <span>{{ p_version.storage }} </span>
+                                                                {% else %}
+                                                                <span>{{ p_version.color }} </span>
+                                                                {% endif %}
                                                             </div>
                                                         </a>
                                                 {% endfor %}

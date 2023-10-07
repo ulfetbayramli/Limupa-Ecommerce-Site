@@ -39,11 +39,17 @@ def get_subcategories(category):
 
 def category_context(request):
     # main_categories = Category.objects.filter(is_main=True)
-    telefone_category = Category.objects.get(name='telefon')
+    telefone_category = Category.objects.get(name='Telefon')
     computer_category = Category.objects.get(name='Komputerler')
     sc_category = Category.objects.get(name='Smart Cihazlar')
     gc_category = Category.objects.get(name='Oyun konsolları')
     tv_category = Category.objects.get(name='TV, audio, video')
+
+    #telefone_category = Category.objects.get(name='Telefon')
+    # computer_category = Category.objects.get(name='Noutbuk')
+    # sc_category = Category.objects.get(name='Smart Qadjetlər')
+    # gc_category = Category.objects.get(name='Hobbi və Əyləncə')
+    # tv_category = Category.objects.get(name='Səsucaldan')
     
 
     telefone_subcategories = get_subcategories(telefone_category)

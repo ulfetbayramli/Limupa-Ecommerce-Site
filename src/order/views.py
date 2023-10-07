@@ -95,6 +95,7 @@ def Add_to_cart(request, product_id=None, category_id=None):
 
     if request.user.is_authenticated:
         user_basket, created = basket.objects.get_or_create(user=request.user, is_active=True)
+        print("axxaxaxaxaxaxaxaxaxa")
         product = Product_version.objects.get(pk=product_id)
         item = basket_item.objects.filter(user = request.user, product=product).first()
         
@@ -122,7 +123,7 @@ def Add_to_cart(request, product_id=None, category_id=None):
             'url': reverse('product_detail', args=[item.product.pk]),
         }
         for item in product_list
-    ]
+        ]
         response = {
             'success': True,
             'message': 'Product added to cart successfully',
