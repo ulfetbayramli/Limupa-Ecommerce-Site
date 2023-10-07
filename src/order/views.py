@@ -13,15 +13,17 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 # Create your views here.
 
-#Login olmayan istifadeciler ucun ayrica mesaj yazilmalidir
-class Wishlist(LoginRequiredMixin, ListView):
+class Wishlist(ListView):
     template_name = 'order/wishlist.html'
     model =  wishlist
     context_object_name = 'wishlist'
     print("============================================================+++++")
     def get_queryset(self):
-        user_wishlist =  wishlist.objects.filter(user = self.request.user).first()
-        return user_wishlist.product.all()
+        if self.request.user.is_authenticated:
+            user_wishlist =  wishlist.objects.filter(user = self.request.user).first()
+            return user_wishlist.product.all()
+
+
 
 
 
@@ -31,12 +33,17 @@ class ShoppingCart(ListView):
     context_object_name = 'b_items'
 
     def get_queryset(self):
-        items = basket.objects.filter(user = self.request.user, is_active = True).last()
-        product = items.items.all()
-        subtotal = sum(item.product.price for item in product)
-        self.product = product
-        self.subtotal = subtotal
-        return[]
+        if self.request.user.is_authenticated:
+            items = basket.objects.filter(user=self.request.user, is_active=True).last()
+            product = items.items.all()
+            subtotal = sum(item.product.price for item in product)
+            self.product = product
+            self.subtotal = subtotal
+        else:
+            self.product = []
+            self.subtotal = 0
+
+        return []
 
     def get_context_data(self, **kwargs):
         context = super(ShoppingCart, self).get_context_data(**kwargs)

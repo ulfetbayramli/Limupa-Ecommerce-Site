@@ -24,6 +24,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
+                            {% if user.is_authenticated %}
                             <form action="#">
                                 <div class="table-content table-responsive">
                                         <table class="table" id="cart-table">
@@ -79,11 +80,14 @@
                                                 <li>Subtotal <span class="basket-total-priceee">${{ subtotal }}</span></li>
                                                 <li>Total <span class="basket-total-priceee">${{ subtotal }}</span></li>
                                             </ul>
-                                            <a href="#">Proceed to checkout</a>
+                                            <a href="{% url 'checkout' %}">Proceed to checkout</a>
                                         </div>
                                     </div>
                                 </div>
                             </form>
+                            {% else %}
+                                <div style="text-align: center; font-size: 24px; margin-top: 20px;">You are not logged in. Please <a href="{% url 'login' %}" style="text-decoration: underline; color: #fed700;">log in</a> to view your items.</div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

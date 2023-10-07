@@ -25,6 +25,7 @@
                             <form action="#">
                                 <div class="table-content table-responsive">
                                     <table class="table">
+                                        {% if user.is_authenticated %}
                                         <thead>
                                             <tr>
                                                 <th class="li-product-remove">remove</th>
@@ -47,6 +48,9 @@
                                             </tr>
                                             {% endfor %}
                                         </tbody>
+                                            {% else %}
+                                            <div style="text-align: center; font-size: 24px; margin-top: 20px;">You are not logged in. Please <a href="{% url 'login' %}" style="text-decoration: underline; color: #fed700;">log in</a> to view your items.</div>
+                                            {% endif %}
                                     </table>
                                 </div>
                             </form>
