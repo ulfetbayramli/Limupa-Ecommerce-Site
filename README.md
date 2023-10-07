@@ -1,5 +1,5 @@
 # Limupa E-commerce website
-You can sell and buy any product here
+Limupa is a powerful e-commerce platform built on Django, designed to streamline the online shopping experience for technology enthusiasts. It provides robust features for managing and selling tech products, including advanced cart management, user authentication, and secure payment processing.
 
 # To Do List
 - Sign up, Sign in and Logout your account
