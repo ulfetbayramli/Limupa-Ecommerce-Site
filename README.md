@@ -27,3 +27,8 @@ Limupa is a powerful e-commerce platform built on Django, designed to streamline
 + Worked with ajax to add, delete products to(from) basket without refreshing page
 - Used postgresql database to stores all data
 + Used social auth to code social login system
+
+
+
+# Limupa E-commerce website
+![limupa image](limupa.png)
