@@ -32,3 +32,6 @@ Limupa is a powerful e-commerce platform built on Django, designed to streamline
 
 # Limupa E-commerce website
 ![limupa image](limupa.png)
+
+# Search Page
+![search page](searchpage.png)
